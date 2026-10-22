@@ -117,19 +117,7 @@ export const competitors: Competitor[] = [
     deals: [
       placeholderDeal('won', 'Won', 'Successfully defended', 'Winning Factor'),
       placeholderDeal('lost', 'Lost', 'xyz deployment', 'Primary Loss Reason'),
-      {
-        status: 'atRisk',
-        statusLabel: 'At Risk',
-        context: 'Upcoming renewal',
-        account: 'Sotheby’s',
-        amount: '$263K',
-        oppLabel: 'org 62 oppty',
-        detailLabel: 'Current Exposure and Threat',
-        details: [
-          'Customer is evaluating Sigma. They like the spreadsheet-style approach, direct Snowflake integration and lower cost. Tableau’s AI features have missed key business use cases such as generating excel outputs for events.',
-          'Strategy: Position Tableau as the analytics layer on top of the Snowflake migration and counter Sigma on integration and simplicity.',
-        ],
-      },
+      placeholderDeal('atRisk', 'At Risk', 'Upcoming renewal', 'Current Exposure and Threat'),
     ],
   },
 
@@ -169,20 +157,7 @@ export const competitors: Competitor[] = [
     deals: [
       placeholderDeal('won', 'Won', 'Full displacement', 'Winning Factor', 'account type'),
       placeholderDeal('lost', 'Lost', 'xyz deployment', 'Primary Loss Reason', 'account type'),
-      {
-        status: 'atRisk',
-        statusLabel: 'At Risk',
-        context: 'Upcoming renewal',
-        account: 'Sweetgreen',
-        accountType: 'AMER RCG',
-        amount: '$124K',
-        oppLabel: 'org 62 oppty',
-        detailLabel: 'Current Exposure and Threat',
-        details: [
-          'Customer actively evaluating migration to Hex driven by perceived lagging innovation.',
-          'Strategy: Bring token consumption costs and enterprise scaling concerns to the forefront. Model co-exist opportunity.',
-        ],
-      },
+      placeholderDeal('atRisk', 'At Risk', 'Upcoming renewal', 'Current Exposure and Threat', 'account type'),
     ],
     notes: {
       source: 'Slide 10',
@@ -255,18 +230,7 @@ export const competitors: Competitor[] = [
     ],
     dealsTitle: 'PBI Deals',
     deals: [
-      {
-        status: 'won',
-        statusLabel: 'Won',
-        context: 'Rip and Replace',
-        account: 'Burberry',
-        amount: '$318K',
-        oppLabel: 'org 62 oppty',
-        detailLabel: 'Winning Factor',
-        details: [
-          'Reversed PBI decision by making a case on architecture, TCO and data democratization. Partnered with Core to win over CIO.',
-        ],
-      },
+      placeholderDeal('won', 'Won', 'Rip and Replace', 'Winning Factor'),
       placeholderDeal('lost', 'Lost', 'xyz deployment', 'Primary Loss Reason'),
       placeholderDeal('atRisk', 'At Risk', 'Upcoming renewal', 'Current Exposure and Threat'),
     ],

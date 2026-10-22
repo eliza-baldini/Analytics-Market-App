@@ -25,7 +25,7 @@ All text, figures, placeholders and speaker notes live in `src/content/`. Compon
 
 Inline markup in text fields: `[[text]]` highlight, `[[text|positive]]` / `gold` / `violet` tones, `*italic*`, `**bold**`.
 
-Deals: replace a `placeholderDeal(...)` entry with a full deal object (see Sweetgreen in `competitors.ts`). Placeholder deals render dimmed.
+Deals: every deal is currently a `placeholderDeal(...)` and renders dimmed. To add a real deal, replace an entry with a full `Deal` object (status, statusLabel, context, account, accountType, amount, oppLabel, detailLabel, details); it renders at full strength.
 
 ## Structure
 
