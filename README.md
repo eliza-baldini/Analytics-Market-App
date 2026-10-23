@@ -15,13 +15,13 @@ All text, figures, placeholders and speaker notes live in `src/content/`. Compon
 
 | File | Slides |
 |---|---|
-| `navigation.ts` | Title, date, chapter and section labels (1) |
-| `shift.ts` | Persona evolution, Legacy BI (2–3) |
-| `vision.ts` | Agentic lifecycle, Durable Loop, Hex & Tableau blueprint (4–6) |
-| `landscape.ts` | Market landscape and its notes, split per camp (7) |
-| `competitors.ts` | Sigma, Hex, Power BI profiles, deals and notes (8–13) |
-| `capabilities.ts` | Capability scores (0–4), evidence and per-row rationale (14) |
-| `buildBuy.ts` | Build-or-buy ranges, lean and notes (15) |
+| `navigation.ts` | Title, date, chapter and section labels and order (1) |
+| `shift.ts` | Legacy BI, Tableau Democratized Data, Next Market Moment (2–4), Persona evolution (6) |
+| `vision.ts` | Agentic Data Foundation (5), Agentic lifecycle, Durable Loop, Hex & Tableau blueprint (7–9) |
+| `landscape.ts` | Market landscape and its notes, split per camp (10) |
+| `competitors.ts` | Sigma, Hex, Power BI profiles, deals and notes (11–16) |
+| `capabilities.ts` | Capability scores (0–4), evidence and per-row rationale (17) |
+| `buildBuy.ts` | Build-or-buy ranges, lean and notes (18) |
 
 Inline markup in text fields: `[[text]]` highlight, `[[text|positive]]` / `gold` / `violet` tones, `*italic*`, `**bold**`.
 

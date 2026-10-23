@@ -1,7 +1,7 @@
 import type { Notes, Rich } from './types'
 
 /* ------------------------------------------------------------------ */
-/* Slide 7 · The Fragmentation of the BI&A Market Landscape            */
+/* Slide 10 · The Fragmentation of the BI&A Market Landscape            */
 /* ------------------------------------------------------------------ */
 
 export interface StackLayer {
@@ -72,7 +72,7 @@ export const landscape = {
         },
       ],
       notes: {
-        source: 'Slide 7',
+        source: 'Slide 10',
         blocks: [
           {
             heading: 'Lakehouses',
@@ -104,7 +104,7 @@ export const landscape = {
         },
       ],
       notes: {
-        source: 'Slide 7',
+        source: 'Slide 10',
         blocks: [
           {
             heading: 'Frontier labs',
@@ -143,7 +143,7 @@ export const landscape = {
         },
       ],
       notes: {
-        source: 'Slide 7',
+        source: 'Slide 10',
         blocks: [
           {
             heading: 'AI-native start-ups',
@@ -174,7 +174,7 @@ export const landscape = {
         },
       ],
       notes: {
-        source: 'Slide 7',
+        source: 'Slide 10',
         blocks: [
           {
             heading: 'Full stack',
@@ -215,7 +215,7 @@ export const landscape = {
         },
       ],
       notes: {
-        source: 'Slide 7',
+        source: 'Slide 10',
         blocks: [
           {
             heading: 'Tableau',

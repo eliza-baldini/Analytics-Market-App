@@ -1,7 +1,7 @@
 import type { Notes } from './types'
 
 /* ------------------------------------------------------------------ */
-/* Slide 15 · Catching Up: Build or Buy                                */
+/* Slide 18 · Catching Up: Build or Buy                                */
 /* ------------------------------------------------------------------ */
 
 export interface GapRow {
@@ -58,7 +58,7 @@ export const buildOrBuy = {
     },
   ] as GapRow[],
   notes: {
-    source: 'Slide 15',
+    source: 'Slide 18',
     blocks: [
       {
         paragraphs: [

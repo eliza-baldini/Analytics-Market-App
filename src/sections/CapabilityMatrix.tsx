@@ -20,7 +20,7 @@ export function CapabilityMatrix() {
         eyebrow="Capability Comparison"
         title={capabilities.title}
         subtitle={capabilities.subtitle}
-        aside={<NotesButton title={capabilities.title} source="Slide 14" blocks={capabilities.generalNotes} />}
+        aside={<NotesButton title={capabilities.title} source="Slide 17" blocks={capabilities.generalNotes} />}
         className="mb-14"
       />
 
@@ -111,7 +111,7 @@ function Row({
   const { detailsOn, openNotes } = useNotes()
   const clickable = detailsOn && !!r.notes
   const open = () =>
-    clickable && openNotes({ title: r.name, source: 'Slide 14', blocks: [{ paragraphs: r.notes!, heading: 'Scoring rationale' }, ...capabilities.generalNotes] })
+    clickable && openNotes({ title: r.name, source: 'Slide 17', blocks: [{ paragraphs: r.notes!, heading: 'Scoring rationale' }, ...capabilities.generalNotes] })
 
   return (
     <div

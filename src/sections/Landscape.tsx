@@ -45,7 +45,7 @@ function HorizontalLandscape() {
               eyebrow="Market Landscape"
               title={landscape.title}
               subtitle={landscape.subtitle}
-              aside={<NotesButton title={landscape.title} source="Slide 7" blocks={[landscape.generalNotes]} />}
+              aside={<NotesButton title={landscape.title} source="Slide 10" blocks={[landscape.generalNotes]} />}
             />
             <p className="mt-10 flex items-center gap-3 text-[13px] font-medium text-ink-faint">
               <span className="h-px w-10 bg-ink-faint/50" /> Five camps · keep scrolling
@@ -71,7 +71,7 @@ function StackedLandscape() {
         eyebrow="Market Landscape"
         title={landscape.title}
         subtitle={landscape.subtitle}
-        aside={<NotesButton title={landscape.title} source="Slide 7" blocks={[landscape.generalNotes]} />}
+        aside={<NotesButton title={landscape.title} source="Slide 10" blocks={[landscape.generalNotes]} />}
         className="mb-12"
       />
       <div className="grid gap-5">

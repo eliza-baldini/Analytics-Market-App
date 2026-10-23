@@ -19,7 +19,7 @@ export function Lifecycle() {
       id="lifecycle"
       ref={ref}
       data-surface="dark"
-      className={`relative rounded-b-[48px] bg-navy-950 text-white ${desktop ? 'h-[240vh]' : 'py-24'}`}
+      className={`relative rounded-[48px] bg-navy-950 text-white ${desktop ? 'h-[240vh]' : 'py-24'}`}
     >
       <div className={desktop ? 'sticky top-0 flex h-screen items-center-safe overflow-hidden pt-16' : ''}>
         <Glow />

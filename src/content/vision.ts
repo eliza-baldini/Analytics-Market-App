@@ -1,7 +1,7 @@
 import type { Rich } from './types'
 
 /* ------------------------------------------------------------------ */
-/* Slide 4 · Building the Agentic Analytics Lifecycle                  */
+/* Slide 7 · Building the Agentic Analytics Lifecycle                  */
 /* ------------------------------------------------------------------ */
 
 export const lifecycle = {
@@ -29,7 +29,7 @@ export const lifecycle = {
 }
 
 /* ------------------------------------------------------------------ */
-/* Slide 5 · Building the Durable Loop for Agentic Data Apps           */
+/* Slide 8 · Building the Durable Loop for Agentic Data Apps           */
 /* ------------------------------------------------------------------ */
 
 export interface LoopStep {
@@ -68,7 +68,7 @@ export const durableLoop = {
 }
 
 /* ------------------------------------------------------------------ */
-/* Slide 6 · Architectural Blueprint: Hex & Tableau                    */
+/* Slide 9 · Architectural Blueprint: Hex & Tableau                    */
 /* ------------------------------------------------------------------ */
 
 export type BlueprintIcon =
@@ -175,4 +175,25 @@ export const blueprint = {
     'The transform lives in [[Hex|gold]]; zero-copy data in the [[lake|gold]]; identity & activation in [[Data 360|violet]].',
     'One trusted metric contract across all agents via [[Tableau Semantics|violet]].',
   ] as Rich[],
+}
+
+/* ------------------------------------------------------------------ */
+/* Slide 5 · The Tableau Agentic Data Foundation                       */
+/* ------------------------------------------------------------------ */
+
+export interface FoundationLayer {
+  name: string
+  description: string
+}
+
+export const foundation = {
+  title: 'The Tableau [[Agentic]] Data Foundation',
+  /** Top of the stack first, as listed on the slide. */
+  layers: [
+    { name: 'Experiences', description: 'Interactive dashboards, natural language, and embedded data apps.' },
+    { name: 'Tableau Knowledge', description: 'AI-driven context and metadata powering enterprise intelligence.' },
+    { name: 'Data Modelling', description: 'The semantic layer establishing a single source of truth.' },
+    { name: 'Data', description: 'High-performance integration, real-time federation, and caching at scale.' },
+    { name: 'Hyperforce', description: 'Secure, globally scalable public cloud infrastructure.' },
+  ] as FoundationLayer[],
 }

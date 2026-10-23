@@ -28,8 +28,9 @@ export const chapters: Chapter[] = [
     index: '01',
     title: 'The Shift',
     sections: [
-      { id: 'personas', navLabel: 'Persona Evolution', slides: '2' },
-      { id: 'legacy-bi', navLabel: 'Legacy BI', slides: '3' },
+      { id: 'legacy-bi', navLabel: 'Legacy BI', slides: '2' },
+      { id: 'democratized', navLabel: 'Tableau Democratized Data', slides: '3' },
+      { id: 'market-moment', navLabel: 'The Next Market Moment', slides: '4' },
     ],
   },
   {
@@ -37,9 +38,11 @@ export const chapters: Chapter[] = [
     index: '02',
     title: 'The Vision',
     sections: [
-      { id: 'lifecycle', navLabel: 'Agentic Lifecycle', slides: '4' },
-      { id: 'durable-loop', navLabel: 'The Durable Loop', slides: '5' },
-      { id: 'blueprint', navLabel: 'Architectural Blueprint', slides: '6' },
+      { id: 'foundation', navLabel: 'Agentic Data Foundation', slides: '5' },
+      { id: 'personas', navLabel: 'Persona Evolution', slides: '6' },
+      { id: 'lifecycle', navLabel: 'Agentic Lifecycle', slides: '7' },
+      { id: 'durable-loop', navLabel: 'The Durable Loop', slides: '8' },
+      { id: 'blueprint', navLabel: 'Architectural Blueprint', slides: '9' },
     ],
   },
   {
@@ -47,10 +50,10 @@ export const chapters: Chapter[] = [
     index: '03',
     title: 'The Market',
     sections: [
-      { id: 'landscape', navLabel: 'Market Landscape', slides: '7' },
-      { id: 'sigma', navLabel: 'Sigma', slides: '8–9' },
-      { id: 'hex', navLabel: 'Hex', slides: '10–11' },
-      { id: 'power-bi', navLabel: 'Power BI', slides: '12–13' },
+      { id: 'landscape', navLabel: 'Market Landscape', slides: '10' },
+      { id: 'sigma', navLabel: 'Sigma', slides: '11–12' },
+      { id: 'hex', navLabel: 'Hex', slides: '13–14' },
+      { id: 'power-bi', navLabel: 'Power BI', slides: '15–16' },
     ],
   },
   {
@@ -58,8 +61,8 @@ export const chapters: Chapter[] = [
     index: '04',
     title: 'Closing the Gap',
     sections: [
-      { id: 'capabilities', navLabel: 'Capability Comparison', slides: '14' },
-      { id: 'build-or-buy', navLabel: 'Build or Buy', slides: '15' },
+      { id: 'capabilities', navLabel: 'Capability Comparison', slides: '17' },
+      { id: 'build-or-buy', navLabel: 'Build or Buy', slides: '18' },
     ],
   },
 ]

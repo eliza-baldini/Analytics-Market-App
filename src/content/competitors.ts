@@ -1,7 +1,7 @@
 import type { Notes, Rich } from './types'
 
 /* ------------------------------------------------------------------ */
-/* Slides 8–13 · Competitor profiles and deals                         */
+/* Slides 11–16 · Competitor profiles and deals                         */
 /* ------------------------------------------------------------------ */
 
 export interface Stat {
@@ -160,7 +160,7 @@ export const competitors: Competitor[] = [
       placeholderDeal('atRisk', 'At Risk', 'Upcoming renewal', 'Current Exposure and Threat', 'account type'),
     ],
     notes: {
-      source: 'Slide 10',
+      source: 'Slide 13',
       blocks: [
         {
           heading: 'Funding, valuation and pricing',
@@ -235,7 +235,7 @@ export const competitors: Competitor[] = [
       placeholderDeal('atRisk', 'At Risk', 'Upcoming renewal', 'Current Exposure and Threat'),
     ],
     notes: {
-      source: 'Slide 12',
+      source: 'Slide 15',
       blocks: [
         {
           heading: 'Sources',

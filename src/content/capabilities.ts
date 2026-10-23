@@ -1,7 +1,7 @@
 import type { NoteBlock } from './types'
 
 /* ------------------------------------------------------------------ */
-/* Slide 14 · Market Capability Comparison                             */
+/* Slide 17 · Market Capability Comparison                             */
 /* ------------------------------------------------------------------ */
 
 /** 0 None · 1 Basic · 2 Partial · 3 Strong · 4 Leading */
