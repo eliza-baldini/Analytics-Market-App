@@ -55,29 +55,29 @@ const opening: Entry[] = [{ id: 'opening', title: meta.title, steps: 1, surface:
 /** Slides per chapter, in deck order. */
 const byChapter: Record<string, Entry[]> = {
   shift: [
-    { id: 'legacy-bi', title: 'Legacy BI: Analytics as a Linear Process', steps: 5, pace: [1700, 1000, 1000, 1100], surface: 'paper', Component: LegacyBI },
-    { id: 'democratized', title: 'Tableau Democratized Data', steps: 4, pace: [1100, 1000, 1500], surface: 'blue', Component: Democratized },
-    { id: 'market-moment', title: 'The Next Market Moment is Here', steps: 3, pace: [2100, 1000], surface: 'blue', Component: MarketMoment },
+    { id: 'legacy-bi', title: 'Legacy BI: Analytics as a Linear Process', steps: 5, pace: [1000, 550, 550, 600], surface: 'paper', Component: LegacyBI },
+    { id: 'democratized', title: 'Tableau Democratized Data', steps: 4, pace: [650, 600, 800], surface: 'blue', Component: Democratized },
+    { id: 'market-moment', title: 'The Next Market Moment is Here', steps: 3, pace: [1100, 600], surface: 'blue', Component: MarketMoment },
   ],
   vision: [
-    { id: 'foundation', title: 'The Tableau Agentic Data Foundation', steps: 6, pace: [1000, 750, 750, 750, 750], surface: 'navy', Component: Foundation },
-    { id: 'personas', title: 'Core Persona Evolution', steps: 3, pace: [1500, 1700], surface: 'paper', Component: Personas },
-    { id: 'lifecycle', title: 'Building the Agentic Analytics Lifecycle', steps: 5, pace: [1200, 1300, 1300, 1000], surface: 'navy', Component: Lifecycle },
-    { id: 'durable-loop', title: 'Building the Durable Loop for Agentic Data Apps', steps: 5, pace: [1300, 1400, 1400, 1400], surface: 'paper', Component: DurableLoop },
-    { id: 'blueprint', title: 'Architectural Blueprint: Hex & Tableau', steps: 5, pace: [1100, 1000, 1300, 1500], surface: 'paper', Component: Blueprint },
+    { id: 'foundation', title: 'The Tableau Agentic Data Foundation', steps: 6, pace: [550, 400, 400, 400, 400], surface: 'navy', Component: Foundation },
+    { id: 'personas', title: 'Core Persona Evolution', steps: 3, pace: [800, 900], surface: 'paper', Component: Personas },
+    { id: 'lifecycle', title: 'Building the Agentic Analytics Lifecycle', steps: 5, pace: [650, 700, 700, 550], surface: 'navy', Component: Lifecycle },
+    { id: 'durable-loop', title: 'Building the Durable Loop for Agentic Data Apps', steps: 5, pace: [700, 750, 750, 750], surface: 'paper', Component: DurableLoop },
+    { id: 'blueprint', title: 'Architectural Blueprint: Hex & Tableau', steps: 5, pace: [600, 550, 700, 800], surface: 'paper', Component: Blueprint },
   ],
   market: [
-    { id: 'landscape', title: 'The Fragmentation of the BI&A Market Landscape', steps: 6, pace: [1100, 650, 650, 650, 650], surface: 'paper', Component: Landscape },
-    { id: 'sigma', title: 'Sigma', steps: 2, pace: [1800], surface: 'paper', Component: profile('sigma') },
+    { id: 'landscape', title: 'The Fragmentation of the BI&A Market Landscape', steps: 6, pace: [600, 350, 350, 350, 350], surface: 'paper', Component: Landscape },
+    { id: 'sigma', title: 'Sigma', steps: 2, pace: [900], surface: 'paper', Component: profile('sigma') },
     { id: 'sigma-deals', title: 'Sigma Deals', steps: 1, surface: 'paper', Component: deals('sigma') },
-    { id: 'hex', title: 'Hex', steps: 2, pace: [1800], surface: 'paper', Component: profile('hex') },
+    { id: 'hex', title: 'Hex', steps: 2, pace: [900], surface: 'paper', Component: profile('hex') },
     { id: 'hex-deals', title: 'Hex Deals', steps: 1, surface: 'paper', Component: deals('hex') },
-    { id: 'power-bi', title: 'Power BI', steps: 2, pace: [1800], surface: 'paper', Component: profile('power-bi') },
+    { id: 'power-bi', title: 'Power BI', steps: 2, pace: [900], surface: 'paper', Component: profile('power-bi') },
     { id: 'power-bi-deals', title: 'PBI Deals', steps: 1, surface: 'paper', Component: deals('power-bi') },
   ],
   gap: [
-    { id: 'capabilities', title: 'Market Capability Comparison', steps: 4, pace: [1500, 900, 900], surface: 'paper', Component: CapabilityMatrix },
-    { id: 'build-or-buy', title: 'Catching Up: Build or Buy', steps: 4, pace: [1300, 1200, 1200], surface: 'navy', Component: BuildOrBuy },
+    { id: 'capabilities', title: 'Market Capability Comparison', steps: 4, pace: [800, 500, 500], surface: 'paper', Component: CapabilityMatrix },
+    { id: 'build-or-buy', title: 'Catching Up: Build or Buy', steps: 4, pace: [700, 650, 650], surface: 'navy', Component: BuildOrBuy },
   ],
 }
 
@@ -92,11 +92,14 @@ export const sectionTabs = [
   ...chapters.map((c) => ({ id: c.id, label: c.title })),
 ].map((t) => ({ ...t, first: slides.findIndex((s) => s.chapter === t.id) }))
 
-const DEFAULT_PACE = 1100
+const DEFAULT_PACE = 600
+
+/** Multiplier on every slide's pacing: below 1 is faster, above 1 slower. */
+export const PACE_SCALE = 1
 
 /** Delay before advancing from `step` to `step + 1` on slide `index`. */
 export function buildDelay(index: number, step: number) {
-  return slides[index].pace?.[step] ?? DEFAULT_PACE
+  return (slides[index].pace?.[step] ?? DEFAULT_PACE) * PACE_SCALE
 }
 
 /** 0–1 progress through the deck, counting builds within the current slide. */
