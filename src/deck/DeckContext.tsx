@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { slides } from './slides'
+import { buildDelay, slides } from './slides'
 
 export type Direction = 1 | -1
 
@@ -11,9 +11,12 @@ interface DeckState {
   /** True when a slide was entered from a later slide, so its builds show without replaying. */
   arrivedFromAfter: boolean
   overview: boolean
+  /** Next slide. Builds within a slide play automatically. */
   next: () => void
+  /** Previous slide, shown fully built. */
   prev: () => void
   goTo: (index: number, step?: number) => void
+  /** Jump to a build on the current slide (e.g. clicking a diagram step); stops auto-play there. */
   setStep: (step: number) => void
   setOverview: (open: boolean) => void
 }
@@ -36,66 +39,67 @@ export function DeckProvider({ children }: { children: ReactNode }) {
   const [step, setStepState] = useState(initial.step)
   const [direction, setDirection] = useState<Direction>(1)
   const [arrivedFromAfter, setArrivedFromAfter] = useState(initial.step > 0)
+  const [autoplay, setAutoplay] = useState(true)
   const [overview, setOverview] = useState(false)
 
   const goTo = useCallback(
     (target: number, targetStep = 0) => {
       const i = Math.min(Math.max(0, target), slides.length - 1)
+      const s = Math.min(Math.max(0, targetStep), lastStep(i))
       setDirection(i >= index ? 1 : -1)
-      setArrivedFromAfter(i < index || targetStep > 0)
+      setArrivedFromAfter(i < index || s > 0)
       setIndex(i)
-      setStepState(Math.min(Math.max(0, targetStep), lastStep(i)))
+      setStepState(s)
+      // Slides entered going forward play their builds; going back they arrive complete.
+      setAutoplay(i >= index && s < lastStep(i))
       setOverview(false)
     },
     [index],
   )
 
   const next = useCallback(() => {
-    if (step < lastStep(index)) {
-      setDirection(1)
-      setStepState(step + 1)
-    } else if (index < slides.length - 1) {
-      goTo(index + 1, 0)
-    }
-  }, [index, step, goTo])
+    if (index < slides.length - 1) goTo(index + 1, 0)
+  }, [index, goTo])
 
   const prev = useCallback(() => {
-    if (step > 0) {
-      setDirection(-1)
-      setStepState(step - 1)
-    } else if (index > 0) {
-      goTo(index - 1, lastStep(index - 1))
-    }
-  }, [index, step, goTo])
+    if (index > 0) goTo(index - 1, lastStep(index - 1))
+  }, [index, goTo])
 
   const setStep = useCallback(
     (s: number) => {
       setDirection(s >= step ? 1 : -1)
+      setAutoplay(false)
       setStepState(Math.min(Math.max(0, s), lastStep(index)))
     },
     [index, step],
   )
 
-  // Keep the URL in sync so any slide and build can be linked to directly.
+  // Play each slide's builds in sequence, paced so every build finishes before the next starts.
   useEffect(() => {
-    const hash = `#${slides[index].id}${step ? `/${step}` : ''}`
-    if (window.location.hash !== hash) history.replaceState(null, '', hash)
-  }, [index, step])
+    if (!autoplay || overview || step >= lastStep(index)) return
+    const timer = window.setTimeout(() => setStepState((s) => Math.min(s + 1, lastStep(index))), buildDelay(index, step))
+    return () => window.clearTimeout(timer)
+  }, [autoplay, overview, index, step])
+
+  // Keep the URL in sync so any slide can be linked to directly.
+  useEffect(() => {
+    const hash = `#${slides[index].id}`
+    if (window.location.hash.split('/')[0] !== hash) history.replaceState(null, '', hash)
+  }, [index])
 
   useEffect(() => {
     const onHash = () => {
       const h = readHash()
       setIndex(h.index)
       setStepState(h.step)
+      setAutoplay(h.step < lastStep(h.index))
     }
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
   return (
-    <DeckContext.Provider
-      value={{ index, step, direction, arrivedFromAfter, overview, next, prev, goTo, setStep, setOverview }}
-    >
+    <DeckContext.Provider value={{ index, step, direction, arrivedFromAfter, overview, next, prev, goTo, setStep, setOverview }}>
       {children}
     </DeckContext.Provider>
   )

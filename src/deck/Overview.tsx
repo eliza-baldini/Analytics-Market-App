@@ -48,9 +48,6 @@ export function Overview() {
                             {String(s.number).padStart(2, '0')}
                           </span>
                           <span className={`display mt-2 block text-[19px] leading-snug ${dark ? 'text-white' : 'text-ink'}`}>{s.title}</span>
-                          <span className={`absolute bottom-4 left-5 text-[11px] ${dark ? 'text-white/45' : 'text-ink-faint'}`}>
-                            {s.steps > 1 ? `${s.steps} builds` : 'Single view'}
-                          </span>
                         </motion.button>
                       )
                     })}

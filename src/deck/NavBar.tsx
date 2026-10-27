@@ -12,8 +12,8 @@ export function NavBar() {
   const { index, step, goTo, next, prev, overview, setOverview } = useDeck()
   const hint = useDetailsHint(index > 0)
   const current = slides[index]
-  const atStart = index === 0 && step === 0
-  const atEnd = index === slides.length - 1 && step === current.steps - 1
+  const atStart = index === 0
+  const atEnd = index === slides.length - 1
 
   return (
     <header className="relative z-50 shrink-0 bg-white">

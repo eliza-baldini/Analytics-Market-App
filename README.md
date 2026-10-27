@@ -29,18 +29,18 @@ Deals: every deal is currently a `placeholderDeal(...)` and renders dimmed. To a
 
 ## Presenting
 
-The app is a click-through deck: 18 slides, one per slide in the source deck, each designed on a 1600×900 canvas that scales to fit the screen.
+The app is a click-through deck: 18 slides, one per slide in the source deck, each designed on a 1600×900 canvas that scales to fit the screen. Each slide plays its animated builds automatically in sequence when it opens; one click moves to the next slide. Per-slide timing lives in `pace` in `src/deck/slides.tsx`.
 
 | Control | Action |
 |---|---|
-| → · Space · PageDown · swipe left | Next build, then next slide |
-| ← · PageUp · swipe right | Previous build (earlier slides return fully built) |
+| → · Space · PageDown · swipe left | Next slide |
+| ← · PageUp · swipe right | Previous slide (shown fully built) |
 | Home / End | First / last slide |
 | O | Overview of all slides |
 | D | Toggle Details (speaker notes) |
 | Esc | Close Overview or the notes drawer |
 
-Each slide's URL hash (`#slide-id/build`) links straight to that slide and build.
+Each slide's URL hash (`#slide-id`) links straight to that slide.
 
 ## Structure
 

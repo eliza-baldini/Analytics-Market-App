@@ -30,7 +30,7 @@ function Deck() {
   )
 }
 
-/** → / Space / PageDown advance · ← / PageUp go back · Home / End · O overview · D details · Esc. */
+/** → / Space / PageDown next slide · ← / PageUp previous · Home / End · O overview · D details · Esc. */
 function useDeckKeys() {
   const { next, prev, goTo, overview, setOverview } = useDeck()
   const { open, detailsOn, setDetailsOn } = useNotes()
@@ -80,7 +80,7 @@ function useDeckKeys() {
   }, [next, prev, goTo, overview, setOverview, open, detailsOn, setDetailsOn])
 }
 
-/** Horizontal swipe to move between builds on touch screens. */
+/** Horizontal swipe to change slides on touch screens. */
 function useSwipe() {
   const { next, prev, overview } = useDeck()
   const start = useRef<{ x: number; y: number } | null>(null)
