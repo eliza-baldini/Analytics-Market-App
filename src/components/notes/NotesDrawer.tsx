@@ -27,7 +27,6 @@ export function NotesDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '105%' }}
             transition={{ type: 'spring', stiffness: 260, damping: 32 }}
-            data-lenis-prevent
           >
             <header className="flex items-start justify-between gap-6 border-b hairline px-8 pt-8 pb-6">
               <div>

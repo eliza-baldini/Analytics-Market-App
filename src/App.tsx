@@ -1,69 +1,101 @@
-import { ChapterIntro } from './components/layout/ChapterIntro'
-import { Footer } from './components/layout/Footer'
-import { SectionRail } from './components/layout/SectionRail'
-import { TopBar } from './components/layout/TopBar'
-import { SmoothScroll } from './components/motion/SmoothScroll'
+import { useEffect, useRef, type TouchEvent } from 'react'
 import { NotesDrawer } from './components/notes/NotesDrawer'
-import { NotesProvider } from './components/notes/NotesContext'
-import { allSections, chapters } from './content/navigation'
-import { useActiveSection } from './hooks/useActiveSection'
-import { Blueprint } from './sections/Blueprint'
-import { BuildOrBuy } from './sections/BuildOrBuy'
-import { CapabilityMatrix } from './sections/CapabilityMatrix'
-import { Democratized } from './sections/Democratized'
-import { Competitors } from './sections/Competitors'
-import { DurableLoop } from './sections/DurableLoop'
-import { Foundation } from './sections/Foundation'
-import { Hero } from './sections/Hero'
-import { Landscape } from './sections/Landscape'
-import { LegacyBI } from './sections/LegacyBI'
-import { Lifecycle } from './sections/Lifecycle'
-import { MarketMoment } from './sections/MarketMoment'
-import { Personas } from './sections/Personas'
-
-const sectionIds = allSections.map((s) => s.id)
-const chapterIds = chapters.map((c) => c.id)
-const [shift, vision, market, gap] = chapters
+import { NotesProvider, useNotes } from './components/notes/NotesContext'
+import { DeckProvider, useDeck } from './deck/DeckContext'
+import { NavBar } from './deck/NavBar'
+import { Overview } from './deck/Overview'
+import { Stage } from './deck/Stage'
+import { slides } from './deck/slides'
 
 export default function App() {
-  const active = useActiveSection(sectionIds)
-  const chapterAtLine = useActiveSection(chapterIds)
-  const beforeFirstChapter = active === 'top' && chapterAtLine === chapterIds[0]
-  const activeChapter = beforeFirstChapter ? null : chapterAtLine
-
   return (
-    <SmoothScroll>
-      <NotesProvider>
-        <TopBar activeChapter={activeChapter} />
-        <SectionRail active={active} />
-        <main>
-          <Hero />
-          <ChapterIntro chapter={shift} />
-          <LegacyBI />
-          {/* Slides 3–4 share one deep-blue canvas, as in the deck */}
-          <div data-surface="dark" className="grain rounded-[48px] bg-[linear-gradient(180deg,#0418a8_0%,#0a2fd0_45%,#0418a8_100%)] text-white">
-            <Democratized />
-            <MarketMoment />
-          </div>
-
-          <ChapterIntro chapter={vision} inverted />
-          <Foundation />
-          <Personas />
-          <Lifecycle />
-          <DurableLoop />
-          <Blueprint />
-
-          <ChapterIntro chapter={market} />
-          <Landscape />
-          <Competitors active={active} />
-
-          <ChapterIntro chapter={gap} />
-          <CapabilityMatrix />
-          <BuildOrBuy />
-        </main>
-        <Footer />
-        <NotesDrawer />
-      </NotesProvider>
-    </SmoothScroll>
+    <NotesProvider>
+      <DeckProvider>
+        <Deck />
+      </DeckProvider>
+    </NotesProvider>
   )
+}
+
+function Deck() {
+  useDeckKeys()
+  const swipe = useSwipe()
+  return (
+    <div className="relative flex h-dvh flex-col overflow-hidden bg-paper" {...swipe}>
+      <NavBar />
+      <Stage />
+      <Overview />
+      <NotesDrawer />
+    </div>
+  )
+}
+
+/** → / Space / PageDown advance · ← / PageUp go back · Home / End · O overview · D details · Esc. */
+function useDeckKeys() {
+  const { next, prev, goTo, overview, setOverview } = useDeck()
+  const { open, detailsOn, setDetailsOn } = useNotes()
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      const target = e.target instanceof HTMLElement ? e.target : null
+      if (target?.closest('input, textarea, select, button, [contenteditable="true"]') && e.key === ' ') return
+      if (target?.closest('input, textarea, select, [contenteditable="true"]')) return
+      if (open) return // the notes drawer handles its own keys
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+        case 'PageDown':
+        case ' ':
+          e.preventDefault()
+          if (!overview) next()
+          break
+        case 'ArrowLeft':
+        case 'ArrowUp':
+        case 'PageUp':
+          e.preventDefault()
+          if (!overview) prev()
+          break
+        case 'Home':
+          goTo(0)
+          break
+        case 'End':
+          goTo(slides.length - 1)
+          break
+        case 'o':
+        case 'O':
+          setOverview(!overview)
+          break
+        case 'd':
+        case 'D':
+          setDetailsOn(!detailsOn)
+          break
+        case 'Escape':
+          setOverview(false)
+          break
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [next, prev, goTo, overview, setOverview, open, detailsOn, setDetailsOn])
+}
+
+/** Horizontal swipe to move between builds on touch screens. */
+function useSwipe() {
+  const { next, prev, overview } = useDeck()
+  const start = useRef<{ x: number; y: number } | null>(null)
+  return {
+    onTouchStart: (e: TouchEvent) => {
+      const t = e.touches[0]
+      start.current = { x: t.clientX, y: t.clientY }
+    },
+    onTouchEnd: (e: TouchEvent) => {
+      if (!start.current || overview) return
+      const t = e.changedTouches[0]
+      const dx = t.clientX - start.current.x
+      const dy = t.clientY - start.current.y
+      start.current = null
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) (dx < 0 ? next : prev)()
+    },
+  }
 }

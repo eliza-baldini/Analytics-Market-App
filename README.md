@@ -27,12 +27,27 @@ Inline markup in text fields: `[[text]]` highlight, `[[text|positive]]` / `gold`
 
 Deals: every deal is currently a `placeholderDeal(...)` and renders dimmed. To add a real deal, replace an entry with a full `Deal` object (status, statusLabel, context, account, accountType, amount, oppLabel, detailLabel, details); it renders at full strength.
 
+## Presenting
+
+The app is a click-through deck: 18 slides, one per slide in the source deck, each designed on a 1600×900 canvas that scales to fit the screen.
+
+| Control | Action |
+|---|---|
+| → · Space · PageDown · swipe left | Next build, then next slide |
+| ← · PageUp · swipe right | Previous build (earlier slides return fully built) |
+| Home / End | First / last slide |
+| O | Overview of all slides |
+| D | Toggle Details (speaker notes) |
+| Esc | Close Overview or the notes drawer |
+
+Each slide's URL hash (`#slide-id/build`) links straight to that slide and build.
+
 ## Structure
 
-- `src/sections/` one component per section of the page
-- `src/components/motion/` reveal, stagger, scroll-linked words, count-up, smooth scroll
-- `src/components/notes/` Details toggle state and the speaker-notes drawer
-- `src/components/layout/` top bar, dot rail, chapter intros, headings, footer
+- `src/deck/` deck engine: state and keys (`DeckContext`), scaling stage, top bar, Overview, `Build`/`Words` primitives, slide registry with build counts (`slides.tsx`)
+- `src/slides/` one component per slide; builds are declared with `<Build at={n}>`
+- `src/components/notes/` Details toggle state, speaker-notes drawer and the Details hint
+- `src/components/ui/` rich text, icons, Tableau mark; `src/components/motion/CountUp`
 
 Fonts are Plus Jakarta Sans (display) and Inter (body) as stand-ins for Avant Garde Demi SFDC and Salesforce Sans; swap them in `src/index.css`.
 

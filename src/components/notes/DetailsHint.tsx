@@ -1,22 +1,14 @@
 import { AnimatePresence, motion } from 'motion/react'
-import { useEffect, useState } from 'react'
-import { easeOutExpo } from '../motion/Reveal'
+import { useState } from 'react'
+import { easeOutExpo } from '../../deck/Build'
 import { useNotes } from './NotesContext'
 
 // Per browser session, so every new visit introduces the toggle once.
 const STORAGE_KEY = 'ama:details-hint-dismissed'
 
-/** True once the reader has scrolled past the opening, until the hint is dismissed this session. */
-export function useDetailsHint() {
+/** True once the presenter has moved past the opening slide, until the hint is dismissed this session. */
+export function useDetailsHint(pastOpening: boolean) {
   const [dismissed, setDismissed] = useState(() => sessionStorage.getItem(STORAGE_KEY) === '1')
-  const [pastOpening, setPastOpening] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setPastOpening(window.scrollY > window.innerHeight * 0.6)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   const dismiss = () => {
     setDismissed(true)

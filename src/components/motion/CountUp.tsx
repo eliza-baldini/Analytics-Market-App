@@ -5,15 +5,34 @@ import { useEffect, useRef, useState } from 'react'
  * Counts up to the numeric part of a formatted figure ("$200M+", "~$400M", "425,000")
  * while preserving its prefix, suffix and thousands separators.
  */
-export function CountUp({ value, className, duration = 1.6 }: { value: string; className?: string; duration?: number }) {
+export function CountUp({
+  value,
+  className,
+  duration = 1.6,
+  play,
+  instant,
+}: {
+  value: string
+  className?: string
+  duration?: number
+  /** When provided, counting starts when this becomes true (e.g. a slide build) instead of on scroll-into-view. */
+  play?: boolean
+  /** Show the final value immediately (e.g. a slide revisited fully built). */
+  instant?: boolean
+}) {
   const match = value.match(/^([^\d]*)([\d,.]+)(.*)$/)
   const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.6 })
+  const seen = useInView(ref, { once: true, amount: 0.6 })
+  const inView = play ?? seen
   const reduce = useReducedMotion()
   const [display, setDisplay] = useState(match ? `${match[1]}0${match[3]}` : value)
 
   useEffect(() => {
-    if (!match || !inView) return
+    if (!match) return
+    if (!inView) {
+      setDisplay(`${match[1]}0${match[3]}`)
+      return
+    }
     const [, prefix, num, suffix] = match
     const target = Number(num.replace(/,/g, ''))
     const decimals = num.includes('.') ? num.split('.')[1].length : 0
@@ -24,7 +43,7 @@ export function CountUp({ value, className, duration = 1.6 }: { value: string; c
         maximumFractionDigits: decimals,
         useGrouping: grouped,
       })}${suffix}`
-    if (reduce) {
+    if (reduce || instant) {
       setDisplay(value)
       return
     }

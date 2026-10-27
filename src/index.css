@@ -47,15 +47,6 @@
     color: var(--color-ink);
   }
 
-  html.lenis,
-  html.lenis body {
-    height: auto;
-  }
-
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-
   body {
     font-family: var(--font-sans);
     font-feature-settings: 'cv11', 'ss01', 'ss03';
