@@ -12,7 +12,7 @@ export function MarketMoment() {
   const demand = useBuilt(1)
   const dim = useBuildTransition(1, 0, 0.6)
   return (
-    <SlideFrame inverted eyebrow="The Next Market Moment" title={marketMoment.title} subtitle={marketMoment.subtitle} notes={marketMoment.notes}>
+    <SlideFrame inverted eyebrow="The Next Market Moment" title={marketMoment.title} subtitle={marketMoment.subtitle}>
       <div className="grid h-[500px] grid-cols-2 gap-8">
         <Build delay={0.2}>
           <motion.div

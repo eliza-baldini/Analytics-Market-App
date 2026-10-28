@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
-import type { NoteBlock, Rich } from '../content/types'
-import { NotesButton } from '../components/notes/NotesButton'
+import type { Rich } from '../content/types'
 import { RichText } from '../components/ui/RichText'
 import { Build } from './Build'
 
@@ -8,8 +7,6 @@ interface Props {
   eyebrow?: string
   title?: ReactNode
   subtitle?: Rich
-  /** Speaker notes for this slide; shows a Details tag when the toggle is on. */
-  notes?: { source: string; blocks: NoteBlock[]; title?: string }
   inverted?: boolean
   /** Accent for highlighted words in the subtitle. */
   accentClass?: string
@@ -23,7 +20,6 @@ export function SlideFrame({
   eyebrow,
   title,
   subtitle,
-  notes,
   inverted,
   accentClass,
   children,
@@ -38,14 +34,6 @@ export function SlideFrame({
             <Build y={12} duration={0.7}>
               <div className="mb-5 flex items-center gap-3">
                 <span className={`eyebrow text-[13px] ${inverted ? 'text-cyan' : 'text-royal'}`}>{eyebrow}</span>
-                {notes && (
-                  <NotesButton
-                    inverted={inverted}
-                    title={notes.title ?? (typeof title === 'string' ? title : eyebrow)}
-                    source={notes.source}
-                    blocks={notes.blocks}
-                  />
-                )}
               </div>
             </Build>
           )}

@@ -1,6 +1,4 @@
 import { useEffect, useRef, type TouchEvent } from 'react'
-import { NotesDrawer } from './components/notes/NotesDrawer'
-import { NotesProvider, useNotes } from './components/notes/NotesContext'
 import { DeckProvider, useDeck } from './deck/DeckContext'
 import { NavBar } from './deck/NavBar'
 import { Overview } from './deck/Overview'
@@ -9,11 +7,9 @@ import { slides } from './deck/slides'
 
 export default function App() {
   return (
-    <NotesProvider>
-      <DeckProvider>
-        <Deck />
-      </DeckProvider>
-    </NotesProvider>
+    <DeckProvider>
+      <Deck />
+    </DeckProvider>
   )
 }
 
@@ -25,15 +21,13 @@ function Deck() {
       <NavBar />
       <Stage />
       <Overview />
-      <NotesDrawer />
     </div>
   )
 }
 
-/** → / Space / PageDown next slide · ← / PageUp previous · Home / End · O overview · D details · Esc. */
+/** → / Space / PageDown next slide · ← / PageUp previous · Home / End · O overview · Esc. */
 function useDeckKeys() {
   const { next, prev, goTo, overview, setOverview } = useDeck()
-  const { open, detailsOn, setDetailsOn } = useNotes()
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -41,7 +35,6 @@ function useDeckKeys() {
       const target = e.target instanceof HTMLElement ? e.target : null
       if (target?.closest('input, textarea, select, button, [contenteditable="true"]') && e.key === ' ') return
       if (target?.closest('input, textarea, select, [contenteditable="true"]')) return
-      if (open) return // the notes drawer handles its own keys
       switch (e.key) {
         case 'ArrowRight':
         case 'ArrowDown':
@@ -66,10 +59,6 @@ function useDeckKeys() {
         case 'O':
           setOverview(!overview)
           break
-        case 'd':
-        case 'D':
-          setDetailsOn(!detailsOn)
-          break
         case 'Escape':
           setOverview(false)
           break
@@ -77,7 +66,7 @@ function useDeckKeys() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [next, prev, goTo, overview, setOverview, open, detailsOn, setDetailsOn])
+  }, [next, prev, goTo, overview, setOverview])
 }
 
 /** Horizontal swipe to change slides on touch screens. */

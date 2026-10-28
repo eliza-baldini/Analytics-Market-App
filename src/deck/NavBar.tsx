@@ -1,16 +1,13 @@
 import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
 import { meta } from '../content/navigation'
-import { DetailsHint, useDetailsHint } from '../components/notes/DetailsHint'
-import { useNotes } from '../components/notes/NotesContext'
 import { TableauMark } from '../components/ui/TableauMark'
 import { useDeck } from './DeckContext'
 import { deckProgress, sectionTabs, slides } from './slides'
 
-/** Presenter bar: deck sections, Details, slide counter, Overview and prev/next. */
+/** Presenter bar: deck sections, slide counter, Overview and prev/next. */
 export function NavBar() {
   const { index, step, goTo, next, prev, overview, setOverview } = useDeck()
-  const hint = useDetailsHint(index > 0)
   const current = slides[index]
   const atStart = index === 0
   const atEnd = index === slides.length - 1
@@ -51,10 +48,6 @@ export function NavBar() {
         <div className="flex-1 lg:hidden" />
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
-          <div className="relative">
-            <DetailsToggle highlight={hint.visible} />
-            <DetailsHint visible={hint.visible} onDismiss={hint.dismiss} />
-          </div>
           <span className="hidden rounded-full bg-sky px-3.5 py-1.5 text-[13px] font-semibold text-ink tabular sm:inline" aria-live="polite">
             {current.number} / {slides.length}
           </span>
@@ -114,38 +107,6 @@ function RoundButton({
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         {children}
       </svg>
-    </button>
-  )
-}
-
-function DetailsToggle({ highlight }: { highlight: boolean }) {
-  const { detailsOn, setDetailsOn } = useNotes()
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={detailsOn}
-      aria-label="Details"
-      onClick={() => setDetailsOn(!detailsOn)}
-      className="flex items-center gap-2.5 rounded-full py-1.5 pr-1.5 pl-1.5 text-[13px] font-medium text-ink-soft transition-colors hover:text-ink sm:pl-3"
-      title="Show speaker notes (D)"
-    >
-      <span className="hidden sm:inline">Details</span>
-      <span className={`relative h-[22px] w-[38px] rounded-full transition-colors duration-300 ${detailsOn ? 'bg-cyan' : 'bg-navy-900/15'}`}>
-        {highlight && (
-          <motion.span
-            aria-hidden
-            className="absolute -inset-[3px] rounded-full ring-2 ring-cyan"
-            animate={{ opacity: [0.9, 0.2, 0.9], scale: [1, 1.08, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        )}
-        <motion.span
-          className="absolute top-[3px] left-[3px] size-4 rounded-full bg-white shadow-sm"
-          animate={{ x: detailsOn ? 16 : 0 }}
-          transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-        />
-      </span>
     </button>
   )
 }

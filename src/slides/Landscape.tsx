@@ -1,7 +1,6 @@
 import { landscape, type Camp } from '../content/landscape'
 import { Build } from '../deck/Build'
 import { SlideFrame } from '../deck/SlideFrame'
-import { NotesButton } from '../components/notes/NotesButton'
 import { RichText } from '../components/ui/RichText'
 
 /**
@@ -14,7 +13,6 @@ export function Landscape() {
       eyebrow="Market Landscape"
       title={landscape.title}
       subtitle={landscape.subtitle}
-      notes={{ source: 'Slide 10', blocks: [landscape.generalNotes], title: landscape.title }}
       headerClassName="[&_h2]:text-[48px]"
     >
       <div className="grid grid-cols-5 items-stretch gap-5">
@@ -43,7 +41,6 @@ function CampPanel({ camp, index }: { camp: Camp; index: number }) {
             <h3 className="display text-[23px] leading-tight">{camp.name}</h3>
             <p className="mt-0.5 text-[14px] text-white/80">{camp.tagline}</p>
           </div>
-          {camp.notes && <NotesButton inverted title={camp.name} source={camp.notes.source} blocks={camp.notes.blocks} />}
         </div>
       </header>
 

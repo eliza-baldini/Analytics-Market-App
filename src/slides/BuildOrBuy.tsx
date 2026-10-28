@@ -14,7 +14,7 @@ const cols = 'grid grid-cols-[400px_1fr_250px] gap-10'
  */
 export function BuildOrBuy() {
   return (
-    <SlideFrame inverted eyebrow="Build or Buy" title={buildOrBuy.title} notes={{ ...buildOrBuy.notes, title: buildOrBuy.title }}>
+    <SlideFrame inverted eyebrow="Build or Buy" title={buildOrBuy.title}>
       <div aria-hidden className="pointer-events-none absolute -top-[30%] left-[20%] size-[900px] rounded-full bg-[radial-gradient(closest-side,rgba(2,42,192,0.5),transparent)] blur-3xl" />
       <div className="relative">
         <Build delay={0.15}>

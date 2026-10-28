@@ -3,7 +3,6 @@ import { competitors, type Competitor, type Deal, type DealStatus } from '../con
 import { Build, useBuilt, useSlideStep } from '../deck/Build'
 import { SlideFrame } from '../deck/SlideFrame'
 import { CountUp } from '../components/motion/CountUp'
-import { NotesButton } from '../components/notes/NotesButton'
 import { RichText } from '../components/ui/RichText'
 
 const byId = (id: string) => competitors.find((c) => c.id === id)!
@@ -27,7 +26,6 @@ export function CompetitorProfile({ id }: { id: string }) {
           </p>
           <div className="flex items-center gap-4">
             <h2 className="display text-[96px] leading-none text-ink">{c.name}</h2>
-            {c.notes && <NotesButton title={c.name} source={c.notes.source} blocks={c.notes.blocks} className="mt-3" />}
           </div>
         </Build>
         <Build delay={0.1}>

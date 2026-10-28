@@ -3,7 +3,6 @@ import { Fragment, useState } from 'react'
 import { capabilities, legend, vendors, type CapabilityRow } from '../content/capabilities'
 import { Build, useBuildTransition, useSlideStep } from '../deck/Build'
 import { SlideFrame } from '../deck/SlideFrame'
-import { useNotes } from '../components/notes/NotesContext'
 
 const grid = 'grid grid-cols-[minmax(0,1.5fr)_repeat(4,108px)_minmax(0,1.9fr)] items-center'
 
@@ -48,7 +47,6 @@ export function CapabilityMatrix() {
       eyebrow="Capability Comparison"
       title={capabilities.title}
       subtitle={capabilities.subtitle}
-      notes={{ source: 'Slide 17', blocks: capabilities.generalNotes, title: capabilities.title }}
       className="!pt-12 !pb-10"
       headerClassName="[&_h2]:text-[44px] [&_p]:mt-2 [&_p]:text-[20px]"
     >
@@ -119,23 +117,15 @@ export function CapabilityMatrix() {
 }
 
 function Row({ row: r, index, vendor, active, onHover }: { row: CapabilityRow; index: number; vendor: number | null; active: boolean; onHover: () => void }) {
-  const { detailsOn, openNotes } = useNotes()
   const { step } = useSlideStep()
-  const clickable = detailsOn && !!r.notes
-  const open = () =>
-    clickable &&
-    openNotes({ title: r.name, source: 'Slide 17', blocks: [{ paragraphs: r.notes!, heading: 'Scoring rationale' }, ...capabilities.generalNotes] })
-
   return (
     <div
       role="row"
       onMouseEnter={onHover}
-      onClick={open}
-      className={`relative ${grid} border-b hairline px-6 py-[5px] transition-colors duration-200 last:border-b-0 ${active ? 'bg-paper/80' : ''} ${clickable ? 'cursor-pointer' : ''}`}
+      className={`relative ${grid} border-b hairline px-6 py-[5px] transition-colors duration-200 last:border-b-0 ${active ? 'bg-paper/80' : ''}`}
     >
       <span role="cell" className="flex items-center gap-2 text-[16px] text-ink">
         {r.name}
-        {clickable && <span className="rounded-full bg-royal/[0.07] px-2 py-0.5 text-[11px] font-medium text-royal">Details</span>}
       </span>
       {r.scores.map((s, vi) => (
         <span role="cell" key={vi} className={`relative flex justify-center transition-opacity duration-300 ${vendor !== null && vendor !== vi ? 'opacity-30' : ''}`}>

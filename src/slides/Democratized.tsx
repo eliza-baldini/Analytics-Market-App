@@ -15,7 +15,7 @@ export function Democratized() {
   const line = useBuildTransition(2, 0, 0.8)
 
   return (
-    <SlideFrame inverted eyebrow="Tableau Democratized Data" title={democratized.title} subtitle={democratized.subtitle} notes={democratized.notes}>
+    <SlideFrame inverted eyebrow="Tableau Democratized Data" title={democratized.title} subtitle={democratized.subtitle}>
       <div className="grid grid-cols-[1fr_120px_1.15fr] items-stretch">
         <Build at={1} x={-40} y={0}>
           <EraCard era={past} tone="past" at={1} />

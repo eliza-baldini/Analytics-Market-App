@@ -11,7 +11,7 @@ npm run build    # static output in dist/
 
 ## Editing content
 
-All text, figures, placeholders and speaker notes live in `src/content/`. Components never hard-code copy, so updating the deck means editing these files only.
+All text, figures, placeholders and speaker notes live in `src/content/` (speaker notes are kept for reference but not shown in the deck). Components never hard-code copy, so updating the deck means editing these files only.
 
 | File | Slides |
 |---|---|
@@ -37,8 +37,7 @@ The app is a click-through deck: 18 slides, one per slide in the source deck, ea
 | ← · PageUp · swipe right | Previous slide (shown fully built) |
 | Home / End | First / last slide |
 | O | Overview of all slides |
-| D | Toggle Details (speaker notes) |
-| Esc | Close Overview or the notes drawer |
+| Esc | Close Overview |
 
 Each slide's URL hash (`#slide-id`) links straight to that slide.
 
@@ -46,7 +45,6 @@ Each slide's URL hash (`#slide-id`) links straight to that slide.
 
 - `src/deck/` deck engine: state and keys (`DeckContext`), scaling stage, top bar, Overview, `Build`/`Words` primitives, slide registry with build counts (`slides.tsx`)
 - `src/slides/` one component per slide; builds are declared with `<Build at={n}>`
-- `src/components/notes/` Details toggle state, speaker-notes drawer and the Details hint
 - `src/components/ui/` rich text, icons, Tableau mark; `src/components/motion/CountUp`
 
 Fonts are Plus Jakarta Sans (display) and Inter (body) as stand-ins for Avant Garde Demi SFDC and Salesforce Sans; swap them in `src/index.css`.

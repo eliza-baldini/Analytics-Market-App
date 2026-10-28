@@ -34,7 +34,7 @@ function readHash(): { index: number; step: number } {
 }
 
 export function DeckProvider({ children }: { children: ReactNode }) {
-  const initial = useMemo(readHash, [])
+  const initial = useMemo(() => readHash(), [])
   const [index, setIndex] = useState(initial.index)
   const [step, setStepState] = useState(initial.step)
   const [direction, setDirection] = useState<Direction>(1)
