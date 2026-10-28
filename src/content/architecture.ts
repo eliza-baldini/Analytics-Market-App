@@ -10,6 +10,18 @@ export interface Coverage {
   added?: number
 }
 
+/**
+ * A partner or surface logo (public/logos/arch/<id>.png) and the stages that show it.
+ * Hidden logos keep their slot, as on the slides.
+ */
+export interface Logo {
+  id: string
+  stages: ArchStage[]
+}
+
+const always: ArchStage[] = ['required', 'gaps', 'roadmap', 'pivot']
+const logos = (ids: string[], stages: ArchStage[] = always): Logo[] => ids.map((id) => ({ id, stages }))
+
 export interface ArchBox {
   id: string
   title: string
@@ -30,7 +42,14 @@ export const architecture = {
     title: 'Headless Analytics & Surface Distribution',
     detail: 'Omnichannel delivery to conversational agents, notebooks, and enterprise collaboration apps',
     coverage: cov(0.36, 0.42, 0.55),
-  } as ArchBox,
+    /** Surface logos; only four stay from slide 13 on. */
+    logos: [
+      ...logos(['h0', 'h1']),
+      ...logos(['h2'], ['required']),
+      ...logos(['h3', 'h4']),
+      ...logos(['h5', 'h6', 'h7'], ['required']),
+    ],
+  } as ArchBox & { logos: Logo[] },
   asset: {
     title: 'Analytics Asset Mgmt',
     items: [
@@ -61,12 +80,19 @@ export const architecture = {
     { id: 'relay', title: 'Git Style Relay Loop', detail: 'Check-out at edge, branch, verify & merge to core', coverage: { pivot: { base: 0, added: 0.29 } } },
   ] as ArchBox[],
   ecosystem: [
-    { id: 'data-360', title: 'Data 360', count: 3, coverage: { gaps: { base: 1 }, roadmap: { base: 1 }, pivot: { base: 1 } } },
-    { id: 'data-partners', title: 'Data Partners', count: 11, coverage: { gaps: { base: 0.75 }, roadmap: { base: 0.75 }, pivot: { base: 0.75, added: 1 } } },
-    { id: 'business-apps', title: 'Business Apps', count: 4, coverage: { pivot: { base: 0, added: 1 } } },
-  ] as (ArchBox & { count: number })[],
-  /** Collaboration surfaces shown beside Headless Analytics (decorative chips). */
-  surfaces: 8,
+    { id: 'data-360', title: 'Data 360', logos: logos(['d0', 'd1', 'd2']), coverage: { gaps: { base: 1 }, roadmap: { base: 1 }, pivot: { base: 1 } } },
+    {
+      id: 'data-partners',
+      title: 'Data Partners',
+      // Three partners drop out on slides 13–14 and return with the pivot.
+      logos: ['p0', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'].map((id) => ({
+        id,
+        stages: ['p0', 'p3', 'p5'].includes(id) ? (['required', 'pivot'] as ArchStage[]) : always,
+      })),
+      coverage: { gaps: { base: 0.75 }, roadmap: { base: 0.75 }, pivot: { base: 0.75, added: 1 } },
+    },
+    { id: 'business-apps', title: 'Business Apps', logos: logos(['b0', 'b1', 'b2', 'b3'], ['required', 'pivot']), coverage: { pivot: { base: 0, added: 1 } } },
+  ] as (ArchBox & { logos: Logo[] })[],
   zones: ['Agentic Core', 'Open Ecosystem'],
   stages: {
     required: {

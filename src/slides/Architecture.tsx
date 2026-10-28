@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react'
 import type { ReactNode } from 'react'
-import { architecture as a, type ArchBox, type ArchStage } from '../content/architecture'
+import { architecture as a, type ArchBox, type ArchStage, type Logo } from '../content/architecture'
 import { Build, useBuildTransition, useSlideStep } from '../deck/Build'
 import { RichText } from '../components/ui/RichText'
 import { Glyph, type GlyphName } from '../components/ui/Glyph'
@@ -48,7 +48,7 @@ export function Architecture({ stage }: { stage: ArchStage }) {
             <p className="text-[21px] font-semibold text-navy-900">{a.headless.title}</p>
             <p className="text-[15px] text-ink-soft">{a.headless.detail}</p>
           </div>
-          <Dots count={stage === 'required' ? a.surfaces : 4} />
+          <Logos logos={a.headless.logos} stage={stage} />
         </CovBox>
       </Build>
 
@@ -111,7 +111,7 @@ export function Architecture({ stage }: { stage: ArchStage }) {
           <div key={g.id} className="text-center">
             <p className="mb-1 text-[15px] font-semibold text-royal">{g.title}</p>
             <CovBox box={g} stage={stage} className="flex h-[46px] items-center justify-center rounded-xl px-4">
-              <Dots count={g.count} />
+              <Logos logos={g.logos} stage={stage} />
             </CovBox>
           </div>
         ))}
@@ -199,14 +199,32 @@ function IconTile({ name, tone = 'blue', small }: { name: GlyphName; tone?: 'blu
   )
 }
 
-/** Integration chips (decorative): partner and surface logos on the slide. */
-function Dots({ count }: { count: number }) {
+/** Partner and surface logos. Logos not in this stage keep their slot, as on the slides. */
+function Logos({ logos, stage }: { logos: Logo[]; stage: ArchStage }) {
   return (
-    <span aria-hidden className="relative flex gap-2">
-      {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="size-[30px] rounded-full bg-gradient-to-br from-white to-[#dfe7f5] ring-1 ring-line shadow-sm" />
+    <span className="relative flex gap-2">
+      {logos.map((l) => (
+        <LogoChip key={l.id} id={l.id} on={l.stages.includes(stage)} returning={stage === 'pivot' && !l.stages.includes('roadmap')} />
       ))}
     </span>
+  )
+}
+
+function LogoChip({ id, on, returning }: { id: string; on: boolean; returning: boolean }) {
+  const { step } = useSlideStep()
+  // Logos that return on the pivot arrive with its green overlay.
+  const at = returning ? timing.pivot.added : 0
+  const shown = on && step >= at
+  const t = useBuildTransition(at, 0.25, 0.5)
+  return (
+    <motion.img
+      src={`${import.meta.env.BASE_URL}logos/arch/${id}.png`}
+      alt=""
+      initial={false}
+      animate={{ opacity: shown ? 1 : 0, scale: shown ? 1 : 0.6 }}
+      transition={t}
+      className="size-[30px] rounded-full bg-white shadow-sm ring-1 ring-line"
+    />
   )
 }
 

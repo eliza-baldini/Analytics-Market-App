@@ -78,8 +78,11 @@ export interface TraditionalPersona {
   responsibilities: { icon: ResponsibilityIcon; text: string }[]
   /** "Typical tools" or "Typical experience", as labelled on the slide. */
   toolsLabel: string
+  /** Tool names; each has a logo at public/logos/tools/<lowercase name>.png. */
   tools: string[]
   tone: 'blue' | 'violet' | 'green'
+  /** Portrait from the deck, under public/. */
+  photo: string
 }
 
 export const traditionalPersonas = {
@@ -98,6 +101,7 @@ export const traditionalPersonas = {
       toolsLabel: 'Typical tools',
       tools: ['Snowflake', 'Databricks', 'SQL', 'AWS'],
       tone: 'blue',
+      photo: 'personas/engineer.jpg',
     },
     {
       role: 'Data Analyst',
@@ -111,6 +115,7 @@ export const traditionalPersonas = {
       toolsLabel: 'Typical tools',
       tools: ['Tableau', 'Excel', 'SQL'],
       tone: 'violet',
+      photo: 'personas/analyst.jpg',
     },
     {
       role: 'Business User',
@@ -124,6 +129,7 @@ export const traditionalPersonas = {
       toolsLabel: 'Typical experience',
       tools: [],
       tone: 'green',
+      photo: 'personas/business.jpg',
     },
   ] as TraditionalPersona[],
   statement: 'A linear, specialized workflow from data pipeline management to static dashboard consumption.',

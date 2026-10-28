@@ -3,11 +3,11 @@ import type { ReactNode } from 'react'
 import { meta } from '../content/navigation'
 import { TableauMark } from '../components/ui/TableauMark'
 import { useDeck } from './DeckContext'
-import { deckProgress, sectionTabs, slides } from './slides'
+import { sectionTabs, slides } from './slides'
 
 /** Presenter bar: deck sections, slide counter, Overview and prev/next. */
 export function NavBar() {
-  const { index, step, goTo, next, prev, overview, setOverview } = useDeck()
+  const { index, goTo, next, prev, overview, setOverview } = useDeck()
   const current = slides[index]
   const atStart = index === 0
   const atEnd = index === slides.length - 1
@@ -71,15 +71,6 @@ export function NavBar() {
         </div>
       </div>
 
-      {/* deck progress, including builds within the current slide */}
-      <div className="h-[3px] bg-sky">
-        <motion.div
-          className="h-full origin-left bg-royal"
-          initial={false}
-          animate={{ scaleX: deckProgress(index, step) }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        />
-      </div>
     </header>
   )
 }

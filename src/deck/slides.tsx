@@ -126,9 +126,3 @@ export const PACE_SCALE = 1
 export function buildDelay(index: number, step: number) {
   return (slides[index].pace?.[step] ?? DEFAULT_PACE) * PACE_SCALE
 }
-
-/** 0–1 progress through the deck, counting builds within the current slide. */
-export function deckProgress(index: number, step: number) {
-  const slide = slides[index]
-  return (index + (step + 1) / slide.steps) / slides.length
-}

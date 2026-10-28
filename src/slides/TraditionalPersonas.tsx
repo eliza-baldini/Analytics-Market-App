@@ -4,16 +4,10 @@ import { SlideFrame } from '../deck/SlideFrame'
 import { Glyph } from '../components/ui/Glyph'
 
 const toneStyle = {
-  blue: { wash: 'from-[#e3efff]', badge: 'bg-royal', avatar: 'from-[#3b6fd8] to-[#1f3fa6]', chip: 'bg-[#e3efff] text-royal' },
-  violet: { wash: 'from-[#efe8ff]', badge: 'bg-[#6d3fd6]', avatar: 'from-[#8b5cf6] to-[#5b21b6]', chip: 'bg-[#efe8ff] text-[#5b21b6]' },
-  green: { wash: 'from-[#e3f5ea]', badge: 'bg-[#1f8a54]', avatar: 'from-[#34a853] to-[#1d6f42]', chip: 'bg-[#e3f5ea] text-[#1d6f42]' },
+  blue: { wash: 'from-[#e3efff]', badge: 'bg-royal', chip: 'bg-[#e3efff] text-royal' },
+  violet: { wash: 'from-[#efe8ff]', badge: 'bg-[#6d3fd6]', chip: 'bg-[#efe8ff] text-[#5b21b6]' },
+  green: { wash: 'from-[#e3f5ea]', badge: 'bg-[#1f8a54]', chip: 'bg-[#e3f5ea] text-[#1d6f42]' },
 }
-
-const initials = (role: string) =>
-  role
-    .split(' ')
-    .map((w) => w[0])
-    .join('')
 
 /**
  * Slide 5 · Traditional BI & Analytics Personas.
@@ -40,21 +34,23 @@ function PersonaCard({ persona: p, index }: { persona: TraditionalPersona; index
   const t = toneStyle[p.tone]
   return (
     <article className={`card flex h-full min-h-[560px] flex-col overflow-hidden bg-gradient-to-b ${t.wash} to-white to-45% p-7`}>
-      <div className="flex gap-4">
-        <span className={`grid size-[76px] shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${t.avatar} display text-[26px] text-white`}>
-          {initials(p.role)}
-        </span>
+      <div className="grid grid-cols-[132px_1fr] gap-5">
+        <img
+          src={`${import.meta.env.BASE_URL}${p.photo}`}
+          alt={p.role}
+          className="h-full max-h-[236px] w-full rounded-2xl object-cover object-[50%_25%] shadow-md ring-4 ring-white"
+        />
         <div className="min-w-0">
           <p className="flex items-center gap-2.5">
-            <span className={`grid size-8 place-items-center rounded-full ${t.badge} text-[15px] font-semibold text-white tabular`}>{index + 1}</span>
-            <span className="display text-[30px] leading-tight">{p.role}</span>
+            <span className={`grid size-8 shrink-0 place-items-center rounded-full ${t.badge} text-[15px] font-semibold text-white tabular`}>{index + 1}</span>
+            <span className="display text-[28px] leading-tight">{p.role}</span>
           </p>
-          <p className="eyebrow mt-2 text-[13px] leading-snug text-ink">{p.remit}</p>
+          <p className="eyebrow mt-2 text-[12.5px] leading-snug text-ink">{p.remit}</p>
+          <p className="mt-3 rounded-2xl bg-white/80 px-4 py-3 text-[17px] leading-snug text-ink-soft italic ring-1 ring-line">{p.quote}</p>
         </div>
       </div>
-      <p className="mt-5 rounded-2xl bg-white/80 px-5 py-4 text-[19px] leading-snug text-ink-soft italic ring-1 ring-line">{p.quote}</p>
 
-      <p className="eyebrow mt-6 mb-3 text-[12.5px] text-ink">Key responsibilities</p>
+      <p className="eyebrow mt-5 mb-3 text-[12.5px] text-ink">Key responsibilities</p>
       <ul className="space-y-3.5">
         {p.responsibilities.map((r) => (
           <li key={r.text} className="flex items-start gap-3 text-[18.5px] leading-snug text-ink">
@@ -69,11 +65,15 @@ function PersonaCard({ persona: p, index }: { persona: TraditionalPersona; index
       <div className="mt-auto flex items-center gap-3 border-t hairline pt-5">
         <span className="eyebrow shrink-0 text-[11px] text-ink">{p.toolsLabel}</span>
         {p.tools.length > 0 ? (
-          <span className="flex flex-wrap gap-1.5">
+          <span className="flex flex-wrap items-center gap-4">
             {p.tools.map((tool) => (
-              <span key={tool} className="rounded-md bg-paper px-2.5 py-1 text-[15px] font-medium text-ink-soft ring-1 ring-line">
-                {tool}
-              </span>
+              <img
+                key={tool}
+                src={`${import.meta.env.BASE_URL}logos/tools/${tool.toLowerCase()}.png`}
+                alt={tool}
+                title={tool}
+                className="h-9 w-auto object-contain"
+              />
             ))}
           </span>
         ) : (
