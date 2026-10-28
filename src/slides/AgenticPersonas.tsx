@@ -5,9 +5,9 @@ import { Glyph, type GlyphName } from '../components/ui/Glyph'
 import { RichText } from '../components/ui/RichText'
 
 const toneStyle = {
-  blue: { badge: 'bg-royal', accent: 'text-royal', bold: '[&_.font-semibold]:text-royal', quote: 'bg-[#cfe3ff]', chip: 'bg-[#e3efff] text-royal', avatar: 'from-[#3b6fd8] to-[#1f3fa6]' },
-  teal: { badge: 'bg-[#0b7a6c]', accent: 'text-[#0b8f7a]', bold: '[&_.font-semibold]:text-[#0b8f7a]', quote: 'bg-[#c9f0e6]', chip: 'bg-[#dcf5ee] text-[#0b7a6c]', avatar: 'from-[#14b8a6] to-[#0b7a6c]' },
-  violet: { badge: 'bg-[#6d3fd6]', accent: 'text-[#6d3fd6]', bold: '[&_.font-semibold]:text-[#6d3fd6]', quote: 'bg-[#e4dafc]', chip: 'bg-[#efe8ff] text-[#5b21b6]', avatar: 'from-[#8b5cf6] to-[#5b21b6]' },
+  blue: { badge: 'bg-royal', accent: 'text-royal', bold: '[&_.font-semibold]:text-royal', quote: 'bg-[#cfe3ff]', chip: 'bg-[#e3efff] text-royal' },
+  teal: { badge: 'bg-[#0b7a6c]', accent: 'text-[#0b8f7a]', bold: '[&_.font-semibold]:text-[#0b8f7a]', quote: 'bg-[#c9f0e6]', chip: 'bg-[#dcf5ee] text-[#0b7a6c]' },
+  violet: { badge: 'bg-[#6d3fd6]', accent: 'text-[#6d3fd6]', bold: '[&_.font-semibold]:text-[#6d3fd6]', quote: 'bg-[#e4dafc]', chip: 'bg-[#efe8ff] text-[#5b21b6]' },
 }
 
 const icons: Record<AgenticPersona['tone'], GlyphName[]> = {
@@ -42,9 +42,7 @@ function PersonaCard({ persona: p }: { persona: AgenticPersona }) {
         <span className={`rounded-lg ${t.badge} px-3.5 py-1.5 text-center text-[16px] leading-tight font-semibold text-white`}>{p.badge}</span>
       </div>
       <div className="-mt-6 flex items-end gap-4">
-        <span className={`grid size-[84px] shrink-0 place-items-center rounded-full bg-gradient-to-br ${t.avatar} display text-[34px] text-white ring-4 ring-white shadow-md`}>
-          {p.name[0]}
-        </span>
+        <img src={`${import.meta.env.BASE_URL}${p.photo}`} alt={p.name} className="size-[96px] shrink-0 rounded-full object-cover ring-4 ring-white shadow-md" />
         <div>
           <p className="display text-[40px] leading-none">{p.name}</p>
           <p className="mt-1 text-[16px] text-ink-soft">{p.title}</p>

@@ -97,6 +97,8 @@ export interface AgenticPersona {
   quote: string
   points: Rich[]
   tone: 'blue' | 'teal' | 'violet'
+  /** Portrait from the deck, under public/. */
+  photo: string
 }
 
 export const agenticPersonas = {
@@ -111,6 +113,7 @@ export const agenticPersonas = {
       quote: '“How do I make our data trusted, governed, and ready for agent execution?”',
       points: ['Curates **Tableau Semantics** and knowledge', 'Establishes **governance and trust**', 'Enables agents via **eval suites and Relay check-ins**'],
       tone: 'blue',
+      photo: 'personas/maya.jpg',
     },
     {
       badge: 'Agentic Developer & Builder',
@@ -120,6 +123,7 @@ export const agenticPersonas = {
       quote: '“How can I quickly build agentic data apps and deliver real value?”',
       points: ['Builds **ad-hoc data apps** via vibe-coding', 'Creates **dashboards, agents and skills** in minutes', 'Deploys across **any surface** (Slack, voice, web, mobile)'],
       tone: 'teal',
+      photo: 'personas/diego.jpg',
     },
     {
       badge: 'Business Consumer & Builder',
@@ -129,6 +133,7 @@ export const agenticPersonas = {
       quote: '“How can I get the right insights in the flow of my work and take action faster?”',
       points: ['Asks questions and gets **proactive insights**', 'Explores data **conversationally** (in Slack, Teams, voice)', 'Takes **action** and collaborates with agents and teammates'],
       tone: 'violet',
+      photo: 'personas/sarah.jpg',
     },
   ] as AgenticPersona[],
 }

@@ -38,7 +38,7 @@ export function Stage() {
     >
       <AnimatePresence initial={false} custom={direction} mode="popLayout">
         <SlideView
-          key={slide.id}
+          key={slide.group ?? slide.id}
           slide={slide}
           step={step}
           arrivalStep={arrivedFromAfter ? step : -1}
@@ -76,7 +76,7 @@ function SlideView({
   const [settled, setSettled] = useState(arrivalStep)
   if (step < settled) setSettled(step)
 
-  const { Component } = slide
+  const { Component, props } = slide
   return (
     <motion.div
       custom={direction}
@@ -100,7 +100,7 @@ function SlideView({
         aria-label={`${slide.number}. ${slide.title}`}
       >
         <SlideStepContext.Provider value={{ step, settled: Math.min(settled, step), goToStep }}>
-          <Component />
+          <Component {...props} />
         </SlideStepContext.Provider>
       </div>
     </motion.div>

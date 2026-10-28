@@ -1,4 +1,4 @@
-import { motion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import type { ReactNode } from 'react'
 import { architecture as a, type ArchBox, type ArchStage } from '../content/architecture'
 import { Build, useBuildTransition, useSlideStep } from '../deck/Build'
@@ -19,6 +19,8 @@ export const archSteps: Record<ArchStage, number> = { required: 1, gaps: 3, road
 /**
  * Slides 12–15 · One architecture diagram, shown in four stages:
  * required capabilities → Tableau today (gaps) → 9-month roadmap → accelerated pivot.
+ * Slides 13–15 share one canvas (group in slides.tsx), so the diagram stays put while the
+ * header and legend swap and the coverage overlays build on each other.
  */
 export function Architecture({ stage }: { stage: ArchStage }) {
   const copy = a.stages[stage]
@@ -26,8 +28,12 @@ export function Architecture({ stage }: { stage: ArchStage }) {
     <div className="relative flex h-full flex-col px-14 pt-12 pb-8 text-ink">
       <header className="flex items-start justify-between">
         <Build y={14}>
-          <h2 className="display text-[46px]">{copy.title}</h2>
-          <p className="mt-1 text-[24px] text-ink">{copy.subtitle}</p>
+          <Swap id={copy.title}>
+            <h2 className="display text-[46px]">{copy.title}</h2>
+          </Swap>
+          <Swap id={copy.subtitle}>
+            <p className="mt-1 text-[24px] text-ink">{copy.subtitle}</p>
+          </Swap>
         </Build>
         <Build delay={0.1} className="mt-3 flex gap-3">
           <span className="rounded-lg bg-[#efe8ff] px-3.5 py-1.5 text-[15px] font-semibold text-[#6d3fd6]">{a.zones[0]}</span>
@@ -111,13 +117,33 @@ export function Architecture({ stage }: { stage: ArchStage }) {
         ))}
       </Build>
 
-      <Build delay={0.45} className="mt-auto flex flex-wrap items-center gap-3 pt-3">
+      <Build delay={0.45} className="mt-auto flex items-center gap-3 pt-3">
         <span className="text-[19px] font-semibold text-navy-900">Legend</span>
-        {copy.legend.map((l) => (
-          <LegendChip key={l.label} kind={l.kind} label={l.label} stage={stage} />
-        ))}
+        <Swap id={stage} className="flex items-center gap-2.5">
+          {copy.legend.map((l) => (
+            <LegendChip key={l.label} kind={l.kind} label={l.label} stage={stage} />
+          ))}
+        </Swap>
       </Build>
     </div>
+  )
+}
+
+/** Crossfades its content whenever `id` changes, e.g. the header as slides 13–15 build on one diagram. */
+function Swap({ id, className, children }: { id: string; className?: string; children: ReactNode }) {
+  return (
+    <AnimatePresence initial={false} mode="wait">
+      <motion.div
+        key={id}
+        className={className}
+        initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
+        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        exit={{ opacity: 0, y: -8, filter: 'blur(6px)' }}
+        transition={{ duration: 0.35 }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
@@ -200,7 +226,7 @@ function LegendChip({ kind, label, stage }: { kind: 'base' | 'added' | 'required
       initial={false}
       animate={{ opacity: step >= at ? 1 : 0.25 }}
       transition={t}
-      className={`rounded-full px-4 py-1.5 text-center text-[14px] leading-tight text-navy-900 ring-2 ${style}`}
+      className={`rounded-full px-3.5 py-1.5 text-center text-[14px] leading-tight whitespace-nowrap text-navy-900 ring-2 ${style}`}
     >
       <RichText text={label} />
     </motion.span>

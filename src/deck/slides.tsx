@@ -43,7 +43,14 @@ export interface SlideDef {
    */
   pace?: number[]
   surface: Surface
-  Component: ComponentType
+  /**
+   * Consecutive slides with the same group share one canvas: moving between them keeps the
+   * component mounted (no slide transition) and only its props change, so it can build on itself.
+   */
+  group?: string
+  props?: object
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- each slide pairs Component with its own props
+  Component: ComponentType<any>
 }
 
 const divider = (id: string): ComponentType => () => <Divider title={sections.find((s) => s.id === id)!.title} />
@@ -78,9 +85,9 @@ const bySection: Record<string, Entry[]> = {
   architecture: [
     sectionDivider('architecture'),
     { id: 'architecture-required', title: 'Market Demands a New Agentic Architecture', steps: archSteps.required, surface: 'paper', Component: with_(Architecture, { stage: 'required' }) },
-    { id: 'architecture-gaps', title: 'Tableau’s Agentic Architecture: Capabilities vs. Desired Architecture', steps: archSteps.gaps, pace: [700, 1100], surface: 'paper', Component: with_(Architecture, { stage: 'gaps' }) },
-    { id: 'architecture-roadmap', title: 'Tableau’s Agentic Architecture: Product Roadmap by Laulima', steps: archSteps.roadmap, pace: [800], surface: 'paper', Component: with_(Architecture, { stage: 'roadmap' }) },
-    { id: 'architecture-pivot', title: 'Tableau’s Agentic Architecture: Revised Product Roadmap with Accelerated Pivot', steps: archSteps.pivot, pace: [800], surface: 'paper', Component: with_(Architecture, { stage: 'pivot' }) },
+    { id: 'architecture-gaps', title: 'Tableau’s Agentic Architecture: Capabilities vs. Desired Architecture', steps: archSteps.gaps, pace: [700, 1100], surface: 'paper', group: 'architecture-overlays', Component: Architecture, props: { stage: 'gaps' } },
+    { id: 'architecture-roadmap', title: 'Tableau’s Agentic Architecture: Product Roadmap by Laulima', steps: archSteps.roadmap, pace: [800], surface: 'paper', group: 'architecture-overlays', Component: Architecture, props: { stage: 'roadmap' } },
+    { id: 'architecture-pivot', title: 'Tableau’s Agentic Architecture: Revised Product Roadmap with Accelerated Pivot', steps: archSteps.pivot, pace: [800], surface: 'paper', group: 'architecture-overlays', Component: Architecture, props: { stage: 'pivot' } },
   ],
   competitive: [
     sectionDivider('competitive'),
