@@ -18,6 +18,18 @@ const sparkles = [
 
 /** Slide 1 · Title. */
 export function Opening() {
+  return (
+    // The final word ("Analytics") is set in cyan, as on the slide.
+    <TitleSlide words={`${meta.title} ${meta.subtitle}`.split(' ')} cue />
+  )
+}
+
+/** Section divider slides (2, 6, 11, 19, 28): the title treatment with the section name. */
+export function Divider({ title }: { title: string }) {
+  return <TitleSlide words={title.split(' ')} size="divider" />
+}
+
+function TitleSlide({ words, cue, size = 'title' }: { words: string[]; cue?: boolean; size?: 'title' | 'divider' }) {
   const { settled } = useSlideStep()
   const instant = settled >= 0
   const t = (delay: number, duration = 1.1) => (instant ? { duration: 0 } : { duration, delay, ease: easeOutExpo })
@@ -38,13 +50,15 @@ export function Opening() {
             <span className="text-[20px] font-semibold tracking-[0.32em] lowercase">tableau</span>
             <span className="text-[15px] text-white/50">from Salesforce</span>
           </motion.div>
-          <motion.p initial={instant ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={t(0.25)} className="eyebrow mb-6 text-[15px] text-cyan">
-            {meta.eyebrow}
-          </motion.p>
-          <h1 className="display text-[124px] leading-[0.95]">
-            {meta.title.split(' ').map((word, i) => (
-              <span key={word} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-                <motion.span className="inline-block" initial={instant ? false : { y: '105%' }} animate={{ y: 0 }} transition={t(0.35 + i * 0.1, 1.2)}>
+          <h1 className={`display leading-[0.98] ${size === 'title' ? 'max-w-[13ch] text-[104px]' : 'max-w-[14ch] text-[96px]'}`}>
+            {words.map((word, i) => (
+              <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+                <motion.span
+                  className={`inline-block ${cue && i === words.length - 1 ? 'text-cyan' : ''}`}
+                  initial={instant ? false : { y: '105%' }}
+                  animate={{ y: 0 }}
+                  transition={t(0.35 + i * 0.08, 1.2)}
+                >
                   {word}&nbsp;
                 </motion.span>
               </span>
@@ -93,6 +107,7 @@ export function Opening() {
         </div>
       </div>
 
+      {cue && (
       <motion.p
         initial={instant ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -103,6 +118,7 @@ export function Opening() {
         <kbd className="rounded-md bg-white/10 px-2 py-1 font-sans text-[13px] tracking-normal text-white ring-1 ring-white/20">→</kbd>
         to begin
       </motion.p>
+      )}
     </div>
   )
 }

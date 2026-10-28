@@ -1,18 +1,19 @@
 import type { ComponentType } from 'react'
-import { chapters, meta } from '../content/navigation'
-import { Blueprint } from '../slides/Blueprint'
-import { BuildOrBuy } from '../slides/BuildOrBuy'
-import { CapabilityMatrix } from '../slides/CapabilityMatrix'
-import { CompetitorDeals, CompetitorProfile } from '../slides/Competitor'
+import { meta, sections } from '../content/navigation'
+import { AgenticPersonas } from '../slides/AgenticPersonas'
+import { Architecture, archSteps } from '../slides/Architecture'
+import { Comparison } from '../slides/Comparison'
 import { Democratized } from '../slides/Democratized'
-import { DurableLoop } from '../slides/DurableLoop'
-import { Foundation } from '../slides/Foundation'
-import { Landscape } from '../slides/Landscape'
+import { FrontierDetail } from '../slides/FrontierDetail'
+import { Frontiers } from '../slides/Frontiers'
 import { LegacyBI } from '../slides/LegacyBI'
 import { Lifecycle } from '../slides/Lifecycle'
-import { MarketMoment } from '../slides/MarketMoment'
-import { Opening } from '../slides/Opening'
-import { Personas } from '../slides/Personas'
+import { Divider, Opening } from '../slides/Opening'
+import { ParadigmShift } from '../slides/ParadigmShift'
+import { ProductStrategy } from '../slides/ProductStrategy'
+import { OperatingModel, Priorities, Reinvestment, SpecDriven, Standards } from '../slides/Talent'
+import { TraditionalPersonas } from '../slides/TraditionalPersonas'
+import { UniversalSelfService } from '../slides/UniversalSelfService'
 
 /** Design size of every slide; the stage scales it to fit the screen. */
 export const CANVAS_W = 1600
@@ -29,7 +30,7 @@ export const surfaceBg: Record<Surface, string> = {
 
 export interface SlideDef {
   id: string
-  /** Deck slide number. */
+  /** Position in the app (deck slides 16–18 are intentionally not included). */
   number: number
   title: string
   /** Section tab this slide belongs to. */
@@ -45,52 +46,69 @@ export interface SlideDef {
   Component: ComponentType
 }
 
-const profile = (id: string): ComponentType => () => <CompetitorProfile id={id} />
-const deals = (id: string): ComponentType => () => <CompetitorDeals id={id} />
+const divider = (id: string): ComponentType => () => <Divider title={sections.find((s) => s.id === id)!.title} />
+const with_ = <P extends object>(C: ComponentType<P>, props: P): ComponentType => () => <C {...props} />
 
 type Entry = Omit<SlideDef, 'number' | 'chapter'>
 
-const opening: Entry[] = [{ id: 'opening', title: meta.title, steps: 1, surface: 'blue', Component: Opening }]
+const sectionDivider = (id: string): Entry => ({
+  id: `${id}-divider`,
+  title: sections.find((s) => s.id === id)!.title,
+  steps: 1,
+  surface: 'blue',
+  Component: divider(id),
+})
 
-/** Slides per chapter, in deck order. */
-const byChapter: Record<string, Entry[]> = {
-  shift: [
-    { id: 'legacy-bi', title: 'Legacy BI: Analytics as a Linear Process', steps: 5, pace: [1000, 550, 550, 600], surface: 'paper', Component: LegacyBI },
-    { id: 'democratized', title: 'Tableau Democratized Data', steps: 4, pace: [650, 600, 800], surface: 'blue', Component: Democratized },
-    { id: 'market-moment', title: 'The Next Market Moment is Here', steps: 3, pace: [1100, 600], surface: 'blue', Component: MarketMoment },
+/** Slides per deck section, in deck order. */
+const bySection: Record<string, Entry[]> = {
+  opening: [{ id: 'opening', title: `${meta.title} ${meta.subtitle}`, steps: 1, surface: 'blue', Component: Opening }],
+  'market-shift': [
+    sectionDivider('market-shift'),
+    { id: 'democratized', title: 'Tableau Democratized Self-Service & Visual Analytics', steps: 4, pace: [700, 700, 900], surface: 'blue', Component: Democratized },
+    { id: 'legacy-bi', title: 'Legacy BI: A Linear, Human-Led Process', steps: 6, pace: [1000, 500, 500, 500, 600], surface: 'paper', Component: LegacyBI },
+    { id: 'traditional-personas', title: 'Traditional BI & Analytics Personas', steps: 5, pace: [600, 500, 500, 600], surface: 'paper', Component: TraditionalPersonas },
   ],
-  vision: [
-    { id: 'foundation', title: 'The Tableau Agentic Data Foundation', steps: 6, pace: [550, 400, 400, 400, 400], surface: 'navy', Component: Foundation },
-    { id: 'personas', title: 'Core Persona Evolution', steps: 3, pace: [800, 900], surface: 'paper', Component: Personas },
+  agentic: [
+    sectionDivider('agentic'),
+    { id: 'universal-self-service', title: 'Generative AI Democratized Universal Self Service Analytics', steps: 4, pace: [700, 700, 800], surface: 'blue', Component: UniversalSelfService },
+    { id: 'paradigm-shift', title: 'AI/BI Architectural Paradigm Shift', steps: 6, pace: [600, 450, 450, 450, 600], surface: 'paper', Component: ParadigmShift },
     { id: 'lifecycle', title: 'Building the Agentic Analytics Lifecycle', steps: 5, pace: [650, 700, 700, 550], surface: 'navy', Component: Lifecycle },
-    { id: 'durable-loop', title: 'Building the Durable Loop for Agentic Data Apps', steps: 5, pace: [700, 750, 750, 750], surface: 'paper', Component: DurableLoop },
-    { id: 'blueprint', title: 'Architectural Blueprint: Hex & Tableau', steps: 5, pace: [600, 550, 700, 800], surface: 'paper', Component: Blueprint },
+    { id: 'agentic-personas', title: 'Meet Our Agentic Era Personas', steps: 4, pace: [600, 500, 500], surface: 'paper', Component: AgenticPersonas },
   ],
-  market: [
-    { id: 'landscape', title: 'The Fragmentation of the BI&A Market Landscape', steps: 6, pace: [600, 350, 350, 350, 350], surface: 'paper', Component: Landscape },
-    { id: 'sigma', title: 'Sigma', steps: 2, pace: [900], surface: 'paper', Component: profile('sigma') },
-    { id: 'sigma-deals', title: 'Sigma Deals', steps: 1, surface: 'paper', Component: deals('sigma') },
-    { id: 'hex', title: 'Hex', steps: 2, pace: [900], surface: 'paper', Component: profile('hex') },
-    { id: 'hex-deals', title: 'Hex Deals', steps: 1, surface: 'paper', Component: deals('hex') },
-    { id: 'power-bi', title: 'Power BI', steps: 2, pace: [900], surface: 'paper', Component: profile('power-bi') },
-    { id: 'power-bi-deals', title: 'PBI Deals', steps: 1, surface: 'paper', Component: deals('power-bi') },
+  architecture: [
+    sectionDivider('architecture'),
+    { id: 'architecture-required', title: 'Market Demands a New Agentic Architecture', steps: archSteps.required, surface: 'paper', Component: with_(Architecture, { stage: 'required' }) },
+    { id: 'architecture-gaps', title: 'Tableau’s Agentic Architecture: Capabilities vs. Desired Architecture', steps: archSteps.gaps, pace: [700, 1100], surface: 'paper', Component: with_(Architecture, { stage: 'gaps' }) },
+    { id: 'architecture-roadmap', title: 'Tableau’s Agentic Architecture: Product Roadmap by Laulima', steps: archSteps.roadmap, pace: [800], surface: 'paper', Component: with_(Architecture, { stage: 'roadmap' }) },
+    { id: 'architecture-pivot', title: 'Tableau’s Agentic Architecture: Revised Product Roadmap with Accelerated Pivot', steps: archSteps.pivot, pace: [800], surface: 'paper', Component: with_(Architecture, { stage: 'pivot' }) },
   ],
-  gap: [
-    { id: 'capabilities', title: 'Market Capability Comparison', steps: 4, pace: [800, 500, 500], surface: 'paper', Component: CapabilityMatrix },
-    { id: 'build-or-buy', title: 'Catching Up: Build or Buy', steps: 4, pace: [700, 650, 650], surface: 'navy', Component: BuildOrBuy },
+  competitive: [
+    sectionDivider('competitive'),
+    { id: 'frontiers', title: 'The Four Competitive Frontiers of Data & Analytics', steps: 6, pace: [600, 350, 350, 350, 350], surface: 'paper', Component: Frontiers },
+    { id: 'lakehouses', title: 'Lakehouses', steps: 5, pace: [700, 500, 600, 600], surface: 'paper', Component: with_(FrontierDetail, { id: 'lakehouses-detail' }) },
+    { id: 'frontier-labs', title: 'Frontier Labs', steps: 5, pace: [700, 500, 600, 600], surface: 'paper', Component: with_(FrontierDetail, { id: 'frontier-labs-detail' }) },
+    { id: 'ai-native', title: 'AI-Native Startups', steps: 5, pace: [700, 500, 600, 600], surface: 'paper', Component: with_(FrontierDetail, { id: 'ai-native-detail' }) },
+    { id: 'hyperscalers', title: 'Hyper-Scaler Full-Stacks', steps: 5, pace: [700, 500, 600, 600], surface: 'paper', Component: with_(FrontierDetail, { id: 'hyperscalers-detail' }) },
+    { id: 'hex-comparison', title: 'Hex: Market Capability Comparison', steps: 2, pace: [900], surface: 'paper', Component: with_(Comparison, { id: 'hex-comparison' }) },
+    { id: 'power-bi-comparison', title: 'Power BI: Market Capability Comparison', steps: 2, pace: [900], surface: 'paper', Component: with_(Comparison, { id: 'power-bi-comparison' }) },
+    { id: 'product-strategy', title: 'FY28 Product Strategy', steps: 4, pace: [500, 700, 700], surface: 'paper', Component: ProductStrategy },
+  ],
+  talent: [
+    sectionDivider('talent'),
+    { id: 'operating-model', title: 'Evolving our Operating Model', steps: 6, pace: [600, 350, 350, 350, 350], surface: 'blue', Component: OperatingModel },
+    { id: 'standards', title: 'Tableau’s Product & Engineering Standards & Expectations', steps: 3, pace: [500, 900], surface: 'paper', Component: Standards },
+    { id: 'priorities', title: 'Analytics T&P P0 Priorities', steps: 1, surface: 'paper', Component: Priorities },
+    { id: 'spec-driven', title: 'Spec-Driven Development – Agentic Transformation', steps: 3, pace: [900, 900], surface: 'paper', Component: SpecDriven },
+    { id: 'reinvestment', title: 'Target Reinvestment: Rapid Innovation', steps: 3, pace: [500, 800], surface: 'paper', Component: Reinvestment },
   ],
 }
 
-export const slides: SlideDef[] = [
-  ...opening.map((s) => ({ ...s, chapter: 'opening' })),
-  ...chapters.flatMap((c) => (byChapter[c.id] ?? []).map((s) => ({ ...s, chapter: c.id }))),
-].map((s, i) => ({ ...s, number: i + 1 }))
+export const slides: SlideDef[] = sections
+  .flatMap((sec) => (bySection[sec.id] ?? []).map((s) => ({ ...s, chapter: sec.id })))
+  .map((s, i) => ({ ...s, number: i + 1 }))
 
-/** Tabs for the top bar: the opening plus each chapter, pointing at its first slide. */
-export const sectionTabs = [
-  { id: 'opening', label: 'Opening' },
-  ...chapters.map((c) => ({ id: c.id, label: c.title })),
-].map((t) => ({ ...t, first: slides.findIndex((s) => s.chapter === t.id) }))
+/** Tabs for the top bar: one per deck section, pointing at its first slide. */
+export const sectionTabs = sections.map((s) => ({ id: s.id, label: s.tab, first: slides.findIndex((sl) => sl.chapter === s.id) }))
 
 const DEFAULT_PACE = 600
 

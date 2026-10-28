@@ -1,10 +1,10 @@
 import { motion } from 'motion/react'
 import { Fragment, useState } from 'react'
-import { capabilities, legend, vendors, type CapabilityRow } from '../content/capabilities'
+import { comparisons, legend, type ComparisonRow } from '../content/competitive'
 import { Build, useBuildTransition, useSlideStep } from '../deck/Build'
 import { SlideFrame } from '../deck/SlideFrame'
 
-const grid = 'grid grid-cols-[minmax(0,1.5fr)_repeat(4,108px)_minmax(0,1.9fr)] items-center'
+const grid = 'grid grid-cols-[minmax(0,1.25fr)_repeat(2,150px)_minmax(0,2.4fr)] items-center'
 
 /** Quarter-step harvey ball; the fill sweeps in when its vendor's build is reached. */
 function Ball({ score, shown, delay, at }: { score: number; shown: boolean; delay: number; at: number }) {
@@ -34,24 +34,25 @@ function Ball({ score, shown, delay, at }: { score: number; shown: boolean; dela
 }
 
 /**
- * Slide 17 · Market Capability Comparison.
- * Builds: 0 the table and Tableau's scores · 1 Hex · 2 Sigma · 3 Power BI.
+ * Slides 25–26 · Tableau vs. one competitor.
+ * Builds: 0 the table and Tableau's scores · 1 the competitor's scores.
  */
-export function CapabilityMatrix() {
+export function Comparison({ id }: { id: string }) {
+  const c = comparisons.find((x) => x.id === id)!
+  const vendors = ['Tableau', c.competitor]
   const [vendor, setVendor] = useState<number | null>(null)
   const [row, setRow] = useState<string | null>(null)
   const { step } = useSlideStep()
 
   return (
     <SlideFrame
-      eyebrow="Capability Comparison"
-      title={capabilities.title}
-      subtitle={capabilities.subtitle}
+      title={c.title}
+      subtitle={c.subtitle}
       className="!pt-12 !pb-10"
       headerClassName="[&_h2]:text-[44px] [&_p]:mt-2 [&_p]:text-[20px]"
     >
       <Build delay={0.2} className="mt-5">
-        <div className="card overflow-hidden" role="table" aria-label={capabilities.title} onMouseLeave={() => setRow(null)}>
+        <div className="card overflow-hidden" role="table" aria-label={c.title} onMouseLeave={() => setRow(null)}>
           <div role="row" className={`${grid} border-b hairline px-6 py-3 text-[15px] font-semibold text-ink`}>
             <span role="columnheader">Capability</span>
             {vendors.map((v, vi) => (
@@ -87,7 +88,7 @@ export function CapabilityMatrix() {
               <span />
             </div>
 
-            {capabilities.groups.map((g) => (
+            {c.groups.map((g) => (
               <Fragment key={g.name}>
                 <div role="row" className="relative bg-navy-900 px-6 py-1.5">
                   <span role="rowheader" className="text-[12.5px] font-semibold tracking-[0.12em] text-white uppercase">
@@ -95,7 +96,7 @@ export function CapabilityMatrix() {
                   </span>
                 </div>
                 {g.rows.map((r, ri) => (
-                  <Row key={r.id} row={r} index={ri} vendor={vendor} active={row === r.id} onHover={() => setRow(r.id)} />
+                  <Row key={r.name} row={r} index={ri} vendor={vendor} active={row === r.name} onHover={() => setRow(r.name)} />
                 ))}
               </Fragment>
             ))}
@@ -116,7 +117,7 @@ export function CapabilityMatrix() {
   )
 }
 
-function Row({ row: r, index, vendor, active, onHover }: { row: CapabilityRow; index: number; vendor: number | null; active: boolean; onHover: () => void }) {
+function Row({ row: r, index, vendor, active, onHover }: { row: ComparisonRow; index: number; vendor: number | null; active: boolean; onHover: () => void }) {
   const { step } = useSlideStep()
   return (
     <div

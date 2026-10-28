@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import { lifecycle } from '../content/vision'
+import { lifecycle } from '../content/agentic'
 import { Build, useBuildTransition, useBuilt } from '../deck/Build'
 import { RichText } from '../components/ui/RichText'
 
@@ -9,7 +9,7 @@ const LEFT = 'M300 160 C 240 60, 60 40, 60 160 C 60 280, 240 260, 300 160'
 const RIGHT = 'M300 160 C 360 60, 540 40, 540 160 C 540 280, 360 260, 300 160'
 
 /**
- * Slide 7 · Building the Agentic Analytics Lifecycle.
+ * Slide 9 · Building the Agentic Analytics Lifecycle.
  * Builds: 0 title · 1 self-service loop · 2 operational loop · 3 RELAY · 4 platform engines.
  */
 export function Lifecycle() {
@@ -103,6 +103,10 @@ function InfinityLoop() {
             )
           })}
 
+          {/* the four stages around each loop, as labelled on the slide */}
+          <SegmentLabels side="left" on={leftOn} t={leftT} />
+          <SegmentLabels side="right" on={rightOn} t={rightT} />
+
           {leftOn && <Pulse path={LEFT} delay={0} />}
           {rightOn && <Pulse path={RIGHT} delay={1.8} />}
 
@@ -139,6 +143,37 @@ function InfinityLoop() {
         </motion.div>
       </div>
     </div>
+  )
+}
+
+// Positions on the 600×320 canvas: [Data, Knowledge, Decisions, Actions] for each loop.
+const segmentPos = {
+  left: [
+    [232, 92],
+    [112, 88],
+    [112, 238],
+    [232, 232],
+  ],
+  right: [
+    [368, 92],
+    [488, 88],
+    [488, 238],
+    [368, 232],
+  ],
+} as const
+
+function SegmentLabels({ side, on, t }: { side: 'left' | 'right'; on: boolean; t: ReturnType<typeof useBuildTransition> }) {
+  return (
+    <motion.g initial={false} animate={{ opacity: on ? 1 : 0 }} transition={{ ...t, delay: (t.delay ?? 0) + 0.6 }}>
+      {lifecycle.segments.map((label, i) => {
+        const [x, y] = segmentPos[side][i]
+        return (
+          <text key={label} x={x} y={y} textAnchor="middle" dominantBaseline="middle" className="fill-white text-[13px] font-semibold">
+            {label}
+          </text>
+        )
+      })}
+    </motion.g>
   )
 }
 

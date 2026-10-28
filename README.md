@@ -11,25 +11,24 @@ npm run build    # static output in dist/
 
 ## Editing content
 
-All text, figures, placeholders and speaker notes live in `src/content/` (speaker notes are kept for reference but not shown in the deck). Components never hard-code copy, so updating the deck means editing these files only.
+All slide text, figures and placeholders live in `src/content/`. Components never hard-code copy, so updating the deck means editing these files only.
 
-| File | Slides |
+| File | Deck slides |
 |---|---|
-| `navigation.ts` | Title, date, chapter and section labels and order (1) |
-| `shift.ts` | Legacy BI, Tableau Democratized Data, Next Market Moment (2–4), Persona evolution (6) |
-| `vision.ts` | Agentic Data Foundation (5), Agentic lifecycle, Durable Loop, Hex & Tableau blueprint (7–9) |
-| `landscape.ts` | Market landscape and its notes, split per camp (10) |
-| `competitors.ts` | Sigma, Hex, Power BI profiles, deals and notes (11–16) |
-| `capabilities.ts` | Capability scores (0–4), evidence and per-row rationale (17) |
-| `buildBuy.ts` | Build-or-buy ranges, lean and notes (18) |
+| `navigation.ts` | Deck title, date and the six sections (tabs and divider titles) |
+| `marketShift.ts` | Democratized self-service (3), Legacy BI (4), traditional personas (5) |
+| `agentic.ts` | Universal self-service (7), paradigm shift (8), agentic lifecycle (9), agentic personas (10) |
+| `architecture.ts` | Agentic architecture diagram and its four overlay stages (12–15) |
+| `competitive.ts` | Four frontiers (20), per-frontier win/loss (21–24), Hex and Power BI comparisons (25–26), FY28 strategy (27) |
+| `talent.ts` | Operating model (29), standards (30), P0 priorities (31), spec-driven development (32), reinvestment (33) |
+
+Deck slides 16–18 (engineering allocation, headcount and tradeoffs) are intentionally not included. Speaker notes are not carried into the app.
 
 Inline markup in text fields: `[[text]]` highlight, `[[text|positive]]` / `gold` / `violet` tones, `*italic*`, `**bold**`.
 
-Deals: every deal is currently a `placeholderDeal(...)` and renders dimmed. To add a real deal, replace an entry with a full `Deal` object (status, statusLabel, context, account, accountType, amount, oppLabel, detailLabel, details); it renders at full strength.
-
 ## Presenting
 
-The app is a click-through deck: 18 slides, one per slide in the source deck, each designed on a 1600×900 canvas that scales to fit the screen. Each slide plays its animated builds automatically in sequence when it opens; one click moves to the next slide. Per-slide timing lives in `pace` in `src/deck/slides.tsx`.
+The app is a click-through deck of 30 slides (the source deck's 33, minus slides 16–18), each designed on a 1600×900 canvas that scales to fit the screen. Each slide plays its animated builds automatically in sequence when it opens; one click moves to the next slide. Per-slide timing lives in `pace` in `src/deck/slides.tsx`.
 
 | Control | Action |
 |---|---|
